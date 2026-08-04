@@ -1,0 +1,363 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HemoCampus - Hospital Registration</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins','Segoe UI',sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#e74c3c,#c0392b);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px 15px;
+    position:relative;
+}
+
+html,
+body{
+    width:100%;
+    overflow-x:hidden;
+}
+
+/* BG WATERMARK TEXT */
+body::before{
+    content:"HEMOCAMPUS";
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    font-size:12vw;          /* 15vw se chhota */
+    font-weight:900;
+    color:rgba(255,255,255,.05);
+    white-space:nowrap;       /* ek hi line me rahe */
+    letter-spacing:3px;       /* 8px se kam */
+    pointer-events:none;
+    user-select:none;
+    z-index:0;
+}
+
+.container{
+    width:100%;
+    max-width:800px;
+    background:#fff;
+    border-radius:16px;
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+    padding:40px 45px;
+    position:relative;
+    z-index:1;
+    animation:fadeIn 0.7s ease;
+}
+@keyframes fadeIn{from{opacity:0; transform:translateY(20px)}to{opacity:1; transform:translateY(0)}}
+
+.header{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.header .icon{
+    font-size:50px;
+    color:#e74c3c;
+}
+
+.header h2{
+    color:#e74c3c;
+    font-size:24px;
+    font-weight:800;
+    margin-top:6px;
+}
+
+.header p{
+    color:#777;
+    font-size:14px;
+}
+
+.section-title{
+    margin:25px 0 18px;
+    color:#e74c3c;
+    font-size:16px;
+    font-weight:700;
+    border-left:4px solid #e74c3c;
+    padding-left:10px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+}
+
+.input-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.input-group label{
+    margin-bottom:7px;
+    font-size:13px;
+    font-weight:600;
+    color:#444;
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea{
+    padding:12px;
+    border:1.5px solid #ddd;
+    border-radius:8px;
+    outline:none;
+    transition:.3s;
+    font-size:14px;
+    background:#fafafa;
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus{
+    border-color:#e74c3c;
+    background:#fff;
+    box-shadow:0 0 0 3px rgba(231,76,60,0.1);
+    transform:translateY(-1px);
+}
+
+textarea{
+    resize:none;
+}
+
+.full{
+    grid-column:1/-1;
+}
+
+.file-input{
+    padding:8px;
+    border:1.5px dashed #e74c3c;
+    background:#fff5f5;
+    border-radius:8px;
+}
+
+.checkbox{
+    margin:25px 0;
+    font-size:13px;
+    color:#555;
+    display:flex;
+    align-items:center;
+}
+
+.checkbox input{
+    margin-right:10px;
+    width:16px;
+    height:16px;
+    accent-color:#e74c3c;
+}
+
+.btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(135deg,#e74c3c,#c0392b);
+    color:white;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.3s;
+    box-shadow:0 6px 15px rgba(231,76,60,0.3);
+}
+
+.btn:hover{
+    background:linear-gradient(135deg,#c0392b,#a93226);
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(231,76,60,0.4);
+}
+
+.login-link{
+    text-align:center;
+    margin-top:18px;
+    font-size:13px;
+    color:#777;
+}
+
+.login-link a{
+    color:#e74c3c;
+    text-decoration:none;
+    font-weight:700;
+}
+
+.note{
+    text-align:center;
+    font-size:12px;
+    color:#888;
+    margin-top:15px;
+}
+
+@media(max-width:768px){
+.form-grid{
+grid-template-columns:1fr;
+}
+.container{
+padding:30px 25px;
+}
+body::before{font-size:20vw;}
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+<div class="icon">🏥</div>
+<h2>HemoCampus</h2>
+<p>Hospital Registration Form</p>
+</div>
+
+<form action="{% url 'hospital_registration' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+<h3 class="section-title">| Hospital Information</h3>
+<div class="form-grid">
+<div class="input-group">
+<label>Hospital Name</label>
+<input type="text" name="hospital_name" placeholder="Ex: City Care Hospital" required>
+</div>
+
+<div class="input-group">
+<label>Govt. Registration No</label>
+<input type="text" name="registration_no" placeholder="Ex: UP/BNK/12345" required>
+</div>
+
+<div class="input-group">
+<label>Incharge Doctor Name</label>
+<input type="text" name="incharge_name" placeholder="Ex: Dr. R.K. Sharma" required>
+</div>
+
+<div class="input-group">
+<label>Hospital Type</label>
+<select name="hospital_type" required>
+<option value="">Select Type</option>
+<option>Government</option>
+<option>Private</option>
+<option>NGO/Trust</option>
+</select>
+</div>
+</div>
+
+<h3 class="section-title">| Contact Information</h3>
+<div class="form-grid">
+<div class="input-group">
+<label>Contact Number</label>
+<input type="tel" name="phone" maxlength="10" placeholder="10 Digit Number" required>
+</div>
+
+<div class="input-group">
+<label>Official Email</label>
+<input type="email" name="email" placeholder="hospital@gmail.com" required>
+</div>
+
+<div class="input-group">
+<label>State</label>
+<input type="text" name="state" placeholder="Ex: Uttar Pradesh" required>
+</div>
+
+<div class="input-group">
+<label>City</label>
+<input type="text" name="city" placeholder="Ex: Lucknow" required>
+</div>
+
+<div class="input-group">
+<label>Pincode</label>
+<input type="text" name="pincode" placeholder="6 Digit Pincode" required>
+</div>
+
+<div class="input-group full">
+<label>Complete Address</label>
+<textarea name="address" rows="3" placeholder="House No, Street, Area" required></textarea>
+</div>
+</div>
+
+<h3 class="section-title">| Facility Information</h3>
+<div class="form-grid">
+<div class="input-group">
+<label>Total No. of Beds</label>
+<input type="number" name="total_beds" min="10" placeholder="Minimum 10" required>
+</div>
+
+<div class="input-group">
+<label>Blood Bank Available</label>
+<select name="blood_bank_available" required>
+<option value="">Select</option>
+<option>Yes</option>
+<option>No</option>
+</select>
+</div>
+
+<div class="input-group full">
+<label>Upload License Certificate</label>
+<input type="file" name="license_certificate" class="file-input" accept=".pdf,.jpg,.jpeg,.png" required>
+</div>
+</div>
+
+<h3 class="section-title">| Account Information</h3>
+<div class="form-grid">
+<div class="input-group">
+<label>Create Username</label>
+<input type="text" name="username" placeholder="Ex: citycare_lko" required>
+</div>
+
+<div class="input-group">
+<label>Create Password</label>
+<input type="password" name="password" placeholder="Min 8 Characters" required>
+</div>
+
+<div class="input-group full">
+<label>Confirm Password</label>
+<input type="password" name="confirm_password" required>
+</div>
+</div>
+
+<div class="checkbox">
+<input type="checkbox" name="agree" required>
+<label>I confirm that all information provided is correct and verified.</label>
+</div>
+
+<button class="btn">🏥 Submit Registration Request</button>
+
+<div class="login-link">
+Already Registered? <a href="/hospital/login/">Login Here</a>
+</div>
+
+<p class="note">Note: Admin will verify your documents within 24-48 hours</p>
+
+</form>
+</div>
+
+<script>
+// Password match check
+document.querySelector("form").addEventListener("submit", function(e){
+let pass = document.querySelector("input[name='password']").value;
+let cpass = document.querySelector("input[name='confirm_password']").value;
+if(pass !== cpass){
+alert("Password and Confirm Password do not match!");
+e.preventDefault();
+}
+});
+
+// Phone validation
+document.querySelector("input[name='phone']").addEventListener("input", function(){
+this.value = this.value.replace(/[^0-9]/g, '');
+});
+</script>
+
+</body>
+</html>

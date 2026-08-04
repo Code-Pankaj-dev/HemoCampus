@@ -1,0 +1,1592 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'Hospital/css/hospital_dashboard.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<div class="container-fluid p-4">
+
+    <!-- ========================= -->
+    <!-- PAGE HEADER -->
+    <!-- ========================= -->
+
+    <div class="row align-items-center mb-4">
+
+        <div class="col-md-6">
+
+            <h2 class="fw-bold mb-1">
+                <i class="fa-solid fa-hospital text-danger"></i>
+                Hospital Dashboard
+            </h2>
+
+            <p class="text-muted">
+
+                Welcome,
+
+                <strong>
+
+                    {% if hospital %}
+                        {{ hospital.hospital_name }}
+                    {% else %}
+                        Hospital
+                    {% endif %}
+
+                </strong>
+
+            </p>
+
+        </div>
+
+        <div class="col-md-6 text-end">
+
+            <a href="{% url 'request_blood' %}"
+               class="btn btn-danger rounded-pill px-4">
+
+                <i class="fa-solid fa-plus"></i>
+
+                New Blood Request
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- DASHBOARD CARDS -->
+    <!-- ========================= -->
+
+    <div class="row g-4">
+
+        <!-- Card 1 -->
+
+        <div class="col-xl-4 col-lg-6">
+
+            <div class="card dashboard-card border-0 shadow">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <h6 class="text-muted">
+
+                                Total Blood Requests
+
+                            </h6>
+
+                            <h2 class="fw-bold counter">
+
+                                {{ total_requests }}
+
+                            </h2>
+
+                        </div>
+
+                        <div class="icon-box bg-primary">
+
+                            <i class="fa-solid fa-droplet"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Card 2 -->
+
+        <div class="col-xl-4 col-lg-6">
+
+            <div class="card dashboard-card border-0 shadow">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <h6 class="text-muted">
+
+                                Approved Requests
+
+                            </h6>
+
+                            <h2 class="text-success fw-bold counter">
+
+                                {{ approved_requests }}
+
+                            </h2>
+
+                        </div>
+
+                        <div class="icon-box bg-success">
+
+                            <i class="fa-solid fa-check"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Card 3 -->
+
+        <div class="col-xl-4 col-lg-6">
+
+            <div class="card dashboard-card border-0 shadow">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <h6 class="text-muted">
+
+                                Pending Requests
+
+                            </h6>
+
+                            <h2 class="text-warning fw-bold counter">
+
+                                {{ pending_requests }}
+
+                            </h2>
+
+                        </div>
+
+                        <div class="icon-box bg-warning">
+
+                            <i class="fa-solid fa-clock"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Card 4 -->
+
+        <div class="col-xl-4 col-lg-6">
+
+            <div class="card dashboard-card border-0 shadow">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <h6 class="text-muted">
+
+                                Rejected Requests
+
+                            </h6>
+
+                            <h2 class="text-danger fw-bold counter">
+
+                                {{ rejected_requests }}
+
+                            </h2>
+
+                        </div>
+
+                        <div class="icon-box bg-danger">
+
+                            <i class="fa-solid fa-xmark"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Card 5 -->
+
+        <div class="col-xl-4 col-lg-6">
+
+            <div class="card dashboard-card border-0 shadow">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <h6 class="text-muted">
+
+                                Blood Units Received
+
+                            </h6>
+
+                            <h2 class="text-info fw-bold counter">
+
+                                {{ blood_units_received }}
+
+                            </h2>
+
+                        </div>
+
+                        <div class="icon-box bg-info">
+
+                            <i class="fa-solid fa-box"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Card 6 -->
+
+        <div class="col-xl-4 col-lg-6">
+
+            <div class="card dashboard-card border-0 shadow">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <h6 class="text-muted">
+
+                                Emergency Requests
+
+                            </h6>
+
+                            <h2 class="text-danger fw-bold counter">
+
+                                {{ emergency_requests }}
+
+                            </h2>
+
+                        </div>
+
+                        <div class="icon-box bg-danger">
+
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- QUICK ACTION -->
+    <!-- ========================= -->
+
+    <div class="card border-0 shadow mt-5">
+
+        <div class="card-header bg-white">
+
+            <h5>
+
+                <i class="fa-solid fa-bolt text-danger"></i>
+
+                Quick Actions
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row g-3">
+
+                <div class="col-lg-4">
+
+                    <a href="{% url 'request_blood' %}"
+                       class="btn btn-danger w-100 p-3">
+
+                        <i class="fa-solid fa-plus"></i>
+
+                        New Blood Request
+
+                    </a>
+
+                </div>
+
+                <div class="col-lg-4">
+
+                    <a href="{% url 'emergency_request' %}"
+                       class="btn btn-warning w-100 p-3">
+
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+
+                        Emergency Request
+
+                    </a>
+
+                </div>
+
+                <div class="col-lg-4">
+
+                    <a href="{% url 'hospital_blood_availability' %}"
+                       class="btn btn-primary w-100 p-3">
+
+                        <i class="fa-solid fa-droplet"></i>
+
+                        Blood Availability
+
+                    </a>
+
+                </div>
+
+                <div class="col-lg-4">
+
+                    <a href="{% url 'my_requests' %}"
+                       class="btn btn-success w-100 p-3">
+
+                        <i class="fa-solid fa-list"></i>
+
+                        My Requests
+
+                    </a>
+
+                </div>
+
+                <div class="col-lg-4">
+
+                    <a href="{% url 'hospital_profile' %}"
+                       class="btn btn-dark w-100 p-3">
+
+                        <i class="fa-solid fa-user-doctor"></i>
+
+                        Update Profile
+
+                    </a>
+
+                </div>
+
+                <div class="col-lg-4">
+
+                    <a href="{% url 'download_report' %}"
+                       class="btn btn-secondary w-100 p-3">
+
+                        <i class="fa-solid fa-download"></i>
+
+                        Download Report
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'Hospital/js/hospital_dashboard.js' %}"></script>
+
+
+
+
+<!-- ===================================================== -->
+<!-- SEARCH & FILTER -->
+<!-- ===================================================== -->
+
+<div class="card border-0 shadow rounded-4 mt-5">
+
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+        <h5 class="mb-0">
+            <i class="fa-solid fa-magnifying-glass text-danger"></i>
+            Search Blood Requests
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="row">
+
+            <div class="col-lg-6">
+
+                <input type="text"
+                       id="searchInput"
+                       class="form-control"
+                       placeholder="Search Patient Name / Blood Group">
+
+            </div>
+
+            <div class="col-lg-3">
+
+                <select class="form-select">
+
+                    <option>All Status</option>
+
+                    <option>Approved</option>
+
+                    <option>Pending</option>
+
+                    <option>Rejected</option>
+
+                </select>
+
+            </div>
+
+            <div class="col-lg-3">
+
+                <button class="btn btn-danger w-100">
+
+                    <i class="fa-solid fa-filter"></i>
+
+                    Filter
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- RECENT BLOOD REQUEST TABLE -->
+<!-- ===================================================== -->
+
+<div class="card border-0 shadow rounded-4 mt-4">
+
+    <div class="card-header bg-white">
+
+        <h5 class="mb-0">
+
+            <i class="fa-solid fa-table text-danger"></i>
+
+            Recent Blood Requests
+
+        </h5>
+
+    </div>
+
+    <div class="card-body table-responsive">
+
+        <table class="table table-hover align-middle" id="requestTable">
+
+            <thead class="table-danger">
+
+                <tr>
+
+                    <th>Request ID</th>
+
+                    <th>Patient Name</th>
+
+                    <th>Blood Group</th>
+
+                    <th>Units</th>
+
+                    <th>Hospital</th>
+
+                    <th>Required Date</th>
+
+                    <th>Status</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for request in requests %}
+
+                <tr>
+
+                    <td>
+
+                        #REQ{{ request.id }}
+
+                    </td>
+
+                    <td>
+
+                        {{ request.patient_name }}
+
+                    </td>
+
+                    <td>
+
+                        <span class="badge bg-danger">
+
+                            {{ request.blood_group }}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        {{ request.units }}
+
+                    </td>
+
+                    <td>
+
+                        {{ hospital.hospital_name }}
+
+                    </td>
+
+                    <td>
+
+                        {{ request.required_date }}
+
+                    </td>
+
+                    <td>
+
+                        {% if request.status == "Approved" %}
+
+                        <span class="badge bg-success">
+
+                            Approved
+
+                        </span>
+
+                        {% elif request.status == "Pending" %}
+
+                        <span class="badge bg-warning text-dark">
+
+                            Pending
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="badge bg-danger">
+
+                            Rejected
+
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <button class="btn btn-primary btn-sm">
+
+                            <i class="fa-solid fa-eye"></i>
+
+                        </button>
+
+                        <button class="btn btn-success btn-sm">
+
+                            <i class="fa-solid fa-pen"></i>
+
+                        </button>
+
+                        <button class="btn btn-danger btn-sm">
+
+                            <i class="fa-solid fa-trash"></i>
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="8" class="text-center text-muted">
+
+                        No Blood Requests Found
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- PAGINATION -->
+<!-- ===================================================== -->
+
+<nav class="mt-4">
+
+    <ul class="pagination justify-content-center">
+
+        <li class="page-item disabled">
+
+            <a class="page-link">
+
+                Previous
+
+            </a>
+
+        </li>
+
+        <li class="page-item active">
+
+            <a class="page-link">
+
+                1
+
+            </a>
+
+        </li>
+
+        <li class="page-item">
+
+            <a class="page-link">
+
+                2
+
+            </a>
+
+        </li>
+
+        <li class="page-item">
+
+            <a class="page-link">
+
+                3
+
+            </a>
+
+        </li>
+
+        <li class="page-item">
+
+            <a class="page-link">
+
+                Next
+
+            </a>
+
+        </li>
+
+    </ul>
+
+</nav>
+
+<!-- ====================================================== -->
+<!--               BLOOD AVAILABILITY SECTION               -->
+<!-- ====================================================== -->
+
+<div class="row mt-5">
+
+    <div class="col-12 mb-4">
+
+        <h4 class="fw-bold text-dark">
+            <i class="fas fa-tint text-danger"></i>
+            Blood Availability
+        </h4>
+
+        <p class="text-muted">
+            Live Blood Stock Available in Blood Bank
+        </p>
+
+    </div>
+
+</div>
+
+<div class="row g-4">
+
+    <!-- A+ -->
+
+    <div class="col-xl-3 col-lg-4 col-md-6">
+
+        <div class="card shadow-sm border-0 rounded-4 blood-card">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+
+                    <h3 class="text-danger fw-bold">
+
+                        A+
+
+                    </h3>
+
+                    <i class="fas fa-droplet fa-2x text-danger"></i>
+
+                </div>
+
+                <h5 class="mt-3">
+
+                    120 Units
+
+                </h5>
+
+                <div class="progress mt-3">
+
+                    <div class="progress-bar bg-danger"
+                         style="width:90%;">
+
+                    </div>
+
+                </div>
+
+                <small class="text-success">
+
+                    Available
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- A- -->
+
+    <div class="col-xl-3 col-lg-4 col-md-6">
+
+        <div class="card shadow-sm border-0 rounded-4 blood-card">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+
+                    <h3 class="text-danger fw-bold">
+
+                        A-
+
+                    </h3>
+
+                    <i class="fas fa-droplet fa-2x text-danger"></i>
+
+                </div>
+
+                <h5 class="mt-3">
+
+                    65 Units
+
+                </h5>
+
+                <div class="progress mt-3">
+
+                    <div class="progress-bar bg-warning"
+                         style="width:60%;">
+
+                    </div>
+
+                </div>
+
+                <small class="text-warning">
+
+                    Limited
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- B+ -->
+
+    <div class="col-xl-3 col-lg-4 col-md-6">
+
+        <div class="card shadow-sm border-0 rounded-4 blood-card">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+
+                    <h3 class="text-danger fw-bold">
+
+                        B+
+
+                    </h3>
+
+                    <i class="fas fa-droplet fa-2x text-danger"></i>
+
+                </div>
+
+                <h5 class="mt-3">
+
+                    95 Units
+
+                </h5>
+
+                <div class="progress mt-3">
+
+                    <div class="progress-bar bg-success"
+                         style="width:80%;">
+
+                    </div>
+
+                </div>
+
+                <small class="text-success">
+
+                    Available
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- B- -->
+
+    <div class="col-xl-3 col-lg-4 col-md-6">
+
+        <div class="card shadow-sm border-0 rounded-4 blood-card">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+
+                    <h3 class="text-danger fw-bold">
+
+                        B-
+
+                    </h3>
+
+                    <i class="fas fa-droplet fa-2x text-danger"></i>
+
+                </div>
+
+                <h5 class="mt-3">
+
+                    42 Units
+
+                </h5>
+
+                <div class="progress mt-3">
+
+                    <div class="progress-bar bg-info"
+                         style="width:45%;">
+
+                    </div>
+
+                </div>
+
+                <small class="text-primary">
+
+                    Moderate
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- AB+ -->
+
+    <div class="col-xl-3 col-lg-4 col-md-6">
+
+        <div class="card shadow-sm border-0 rounded-4 blood-card">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+
+                    <h3 class="text-danger fw-bold">
+
+                        AB+
+
+                    </h3>
+
+                    <i class="fas fa-droplet fa-2x text-danger"></i>
+
+                </div>
+
+                <h5 class="mt-3">
+
+                    38 Units
+
+                </h5>
+
+                <div class="progress mt-3">
+
+                    <div class="progress-bar bg-warning"
+                         style="width:40%;">
+
+                    </div>
+
+                </div>
+
+                <small class="text-warning">
+
+                    Low Stock
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- AB- -->
+
+    <div class="col-xl-3 col-lg-4 col-md-6">
+
+        <div class="card shadow-sm border-0 rounded-4 blood-card">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+
+                    <h3 class="text-danger fw-bold">
+
+                        AB-
+
+                    </h3>
+
+                    <i class="fas fa-droplet fa-2x text-danger"></i>
+
+                </div>
+
+                <h5 class="mt-3">
+
+                    15 Units
+
+                </h5>
+
+                <div class="progress mt-3">
+
+                    <div class="progress-bar bg-danger"
+                         style="width:20%;">
+
+                    </div>
+
+                </div>
+
+                <small class="text-danger">
+
+                    Critical
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- O+ -->
+
+    <div class="col-xl-3 col-lg-4 col-md-6">
+
+        <div class="card shadow-sm border-0 rounded-4 blood-card">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+
+                    <h3 class="text-danger fw-bold">
+
+                        O+
+
+                    </h3>
+
+                    <i class="fas fa-droplet fa-2x text-danger"></i>
+
+                </div>
+
+                <h5 class="mt-3">
+
+                    140 Units
+
+                </h5>
+
+                <div class="progress mt-3">
+
+                    <div class="progress-bar bg-success"
+                         style="width:95%;">
+
+                    </div>
+
+                </div>
+
+                <small class="text-success">
+
+                    Excellent
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- O- -->
+
+    <div class="col-xl-3 col-lg-4 col-md-6">
+
+        <div class="card shadow-sm border-0 rounded-4 blood-card">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+
+                    <h3 class="text-danger fw-bold">
+
+                        O-
+
+                    </h3>
+
+                    <i class="fas fa-droplet fa-2x text-danger"></i>
+
+                </div>
+
+                <h5 class="mt-3">
+
+                    22 Units
+
+                </h5>
+
+                <div class="progress mt-3">
+
+                    <div class="progress-bar bg-danger"
+                         style="width:28%;">
+
+                    </div>
+
+                </div>
+
+                <small class="text-danger">
+
+                    Critical
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================================== -->
+<!--            EMERGENCY BLOOD REQUEST SECTION            -->
+<!-- ===================================================== -->
+
+<div class="row mt-5">
+
+    <!-- Emergency Requests Table -->
+
+    <div class="col-lg-8">
+
+        <div class="card border-0 shadow rounded-4">
+
+            <div class="card-header bg-danger text-white">
+
+                <h5 class="mb-0">
+
+                    <i class="fas fa-triangle-exclamation"></i>
+
+                    Recent Emergency Requests
+
+                </h5>
+
+            </div>
+
+            <div class="card-body table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Priority</th>
+                            <th>Patient</th>
+                            <th>Blood Group</th>
+                            <th>Units</th>
+                            <th>Required Date</th>
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for request in requests %}
+
+                            {% if request.priority == "Emergency" %}
+
+                            <tr>
+
+                                <td>
+
+                                    <span class="badge bg-danger">
+
+                                        Emergency
+
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    {{ request.patient_name }}
+
+                                </td>
+
+                                <td>
+
+                                    <span class="badge bg-dark">
+
+                                        {{ request.blood_group }}
+
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    {{ request.units }}
+
+                                </td>
+
+                                <td>
+
+                                    {{ request.required_date }}
+
+                                </td>
+
+                                <td>
+
+                                    {% if request.status == "Approved" %}
+
+                                        <span class="badge bg-success">
+
+                                            Approved
+
+                                        </span>
+
+                                    {% elif request.status == "Pending" %}
+
+                                        <span class="badge bg-warning text-dark">
+
+                                            Pending
+
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="badge bg-danger">
+
+                                            Rejected
+
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                            {% endif %}
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="6" class="text-center">
+
+                                No Emergency Requests
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Emergency Summary -->
+
+    <div class="col-lg-4">
+
+        <div class="card border-0 shadow rounded-4">
+
+            <div class="card-header bg-dark text-white">
+
+                <h5 class="mb-0">
+
+                    <i class="fas fa-bell"></i>
+
+                    Emergency Summary
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="mb-4">
+
+                    <h6>Total Emergency Requests</h6>
+
+                    <h2 class="text-danger">
+
+                        {{ emergency_requests }}
+
+                    </h2>
+
+                </div>
+
+                <hr>
+
+                <div class="mb-4">
+
+                    <h6>Approved</h6>
+
+                    <h3 class="text-success">
+
+                        {{ approved_requests }}
+
+                    </h3>
+
+                </div>
+
+                <hr>
+
+                <div class="mb-4">
+
+                    <h6>Pending</h6>
+
+                    <h3 class="text-warning">
+
+                        {{ pending_requests }}
+
+                    </h3>
+
+                </div>
+
+                <hr>
+
+                <div>
+
+                    <h6>Rejected</h6>
+
+                    <h3 class="text-danger">
+
+                        {{ rejected_requests }}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ========================================= -->
+<!-- Notification & Hospital Profile Section -->
+<!-- ========================================= -->
+
+<div class="row mt-5">
+
+    <!-- Notifications -->
+
+    <div class="col-lg-6">
+
+        <div class="card shadow border-0 rounded-4 h-100">
+
+            <div class="card-header bg-primary text-white">
+
+                <h5 class="mb-0">
+                    <i class="fas fa-bell"></i>
+                    Recent Notifications
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <ul class="list-group list-group-flush">
+
+                    <li class="list-group-item">
+                        🩸 Your blood request has been approved.
+                    </li>
+
+                    <li class="list-group-item">
+                        🚑 Emergency request submitted successfully.
+                    </li>
+
+                    <li class="list-group-item">
+                        📦 Blood stock has been updated.
+                    </li>
+
+                    <li class="list-group-item">
+                        ✔ Profile updated successfully.
+                    </li>
+
+                    <li class="list-group-item">
+                        🔔 New blood units are available.
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Hospital Profile -->
+
+    <div class="col-lg-6">
+
+        <div class="card shadow border-0 rounded-4 h-100">
+
+            <div class="card-header bg-danger text-white">
+
+                <h5 class="mb-0">
+                    <i class="fas fa-hospital"></i>
+                    Hospital Profile
+                </h5>
+
+            </div>
+
+            <div class="card-body text-center">
+
+                <img src="{% static 'Hospital/images/hospital.png' %}"
+                     class="rounded-circle shadow mb-3"
+                     width="120"
+                     height="120"
+                     alt="Hospital Logo">
+
+                <h4>
+
+                    {% if hospital %}
+
+                        {{ hospital.hospital_name }}
+
+                    {% else %}
+
+                        ABC Hospital
+
+                    {% endif %}
+
+                </h4>
+
+                <hr>
+
+                <table class="table table-borderless">
+
+                    <tr>
+
+                        <th>Registration No.</th>
+
+                        <td>
+
+                            {% if hospital %}
+
+                                {{ hospital.registration_no }}
+
+                            {% else %}
+
+                                HOSP001
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Doctor</th>
+
+                        <td>
+
+                            {% if hospital %}
+
+                                {{ hospital.doctor_name }}
+
+                            {% else %}
+
+                                Dr. Sharma
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Email</th>
+
+                        <td>
+
+                            {% if hospital %}
+
+                                {{ hospital.email }}
+
+                            {% else %}
+
+                                hospital@gmail.com
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Phone</th>
+
+                        <td>
+
+                            {% if hospital %}
+
+                                {{ hospital.phone }}
+
+                            {% else %}
+
+                                9876543210
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>District</th>
+
+                        <td>
+
+                            {% if hospital %}
+
+                                {{ hospital.district }}
+
+                            {% else %}
+
+                                Lucknow
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>State</th>
+
+                        <td>
+
+                            {% if hospital %}
+
+                                {{ hospital.state }}
+
+                            {% else %}
+
+                                Uttar Pradesh
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ========================================= -->
+<!-- Footer -->
+<!-- ========================================= -->
+
+<footer class="mt-5">
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body text-center">
+
+            <p class="mb-1">
+
+                © 2026 HemoCampus - Blood Bank Management System
+
+            </p>
+
+            <small class="text-muted">
+
+                Developed by <strong>Pankaj Upadhyay, Abhishek kumar, Ranjeet Bharti, Anisha kumari, Km. Sandhya Bharti, Garima Singh </strong>
+
+            </small>
+
+        </div>
+
+    </div>
+
+</footer>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Hemo Campus{% endblock %}</title>
+{% load static %}
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    /* ================= HEADER ================= */
+   .header {
+        width: 100%;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: linear-gradient(90deg, #4b0000 0%, #a00000 50%, #ff1a1a 100%);
+        padding: 0 35px;
+        box-shadow: 0 5px 20px rgba(160,0,0,0.4);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    /* Logo + Brand */
+   .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+   .brand img {
+        height: 42px;
+        width: 42px;
+        border-radius: 50%;
+        background: white;
+        object-fit: cover;
+        box-shadow: 0 0 10px rgba(255,215,0,0.5);
+    }
+
+   .brand-text {
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-shadow: 0 0 8px rgba(255,255,255,0.6);
+    }
+
+   .Novbaar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: nowrap;
+
+    }
+
+   .Novbaar a,.dropbtn {
+        text-decoration: none;
+        color: white;
+        font-size: 15px;
+        font-weight: 600;
+        padding: 9px 14px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        position: relative;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        font-family: inherit;
+    }
+
+    /* Hover effect - golden glow for all nav items */
+   .Novbaar a:hover,.dropbtn:hover {
+        background: linear-gradient(90deg, #ffd700, #ffea80);
+        color: #4b0000;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(255,215,0,0.4);
+    }
+
+    /* Dropdown container */
+   .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Dropdown menu */
+   .dropdown-content {
+        display: none;
+        position: absolute;
+        background: #fff;
+        min-width: 220px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        border-radius: 8px;
+        z-index: 1000;
+        top: 100%;
+        left: 0;
+        margin-top: 5px;
+        overflow: hidden;
+    }
+
+    /* Dropdown links */
+   .dropdown-content a {
+        color: #4b0000;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        border-radius: 0;
+        font-weight: 500;
+        transform: none;
+    }
+
+   .dropdown-content a:hover {
+        background: #ffea80;
+        color: #4b0000;
+        transform: none;
+        box-shadow: none;
+    }
+
+    /* Show dropdown on hover */
+   .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* Account button styled different */
+   .account-btn {
+        background: linear-gradient(90deg, #ffd700, #ffea80);
+        color: #4b0000;
+    }
+
+    /* ================= FOOTER ================= */
+   .footer {
+        width: 100vw;
+        background: #000000;
+        color: white;
+        padding: 40px 0 0 0;
+        margin: 50px 0 0 0;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        box-sizing: border-box;
+    }
+
+   .footer-container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 30px;
+        padding-bottom: 30px;
+    }
+
+   .footer-col h4 {
+        font-size: 18px;
+        margin-bottom: 15px;
+        color: white;
+        font-weight: bold;
+    }
+
+   .footer-col p,.footer-col ul li,.footer-col ul li a {
+        font-size: 14px;
+        color: #cccccc;
+        text-decoration: none;
+    }
+
+   .footer-col ul li a:hover,.social-icons a:hover {
+        color: white;
+    }
+
+   .footer-bottom {
+        width: 100%;
+        background: #111111;
+        text-align: center;
+        padding: 15px 10px;
+        font-size: 13px;
+        color: white;
+    }
+</style>
+</head>
+<body>
+
+<!-- HEADER START -->
+<div class="header">
+    <div class="brand">
+{#        <img src="#" alt="Hemo Campus Logo">#}
+        <span class="brand-text">HEMO CAMPUS</span>
+    </div>
+    <div class="Novbaar">
+        <a href="/">Home</a>
+        <a href="/about/">About Us</a>
+
+        <!-- Service Dropdown -->
+        <div class="dropdown">
+            <button class="dropbtn">Service ▾</button>
+            <div class="dropdown-content">
+                <a href="/blood-availability/">Blood Availability</a>
+                <a href="/blood-center-directory/">Blood Center Directory</a>
+                <a href="/camp-schedule/">Camp Schedule</a>
+            </div>
+        </div>
+
+        <a href="/donate/">Donate Blood</a>
+      <a href="/request-blood/">Request Blood</a>
+        <a href="/contact/">Contact Us</a>
+
+        <!-- Account Dropdown -->
+        <div class="dropdown">
+            <button class="dropbtn account-btn">Account ▾</button>
+            <div class="dropdown-content">
+                <a href="/login/">Login</a>
+                <a href="/register/">Register</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- HEADER END -->
+
+<!-- Yahan har page ka alag content aayega -->
+<main style="min-height:70vh;">
+    {% block content %}
+    {% endblock %}
+</main>
+
+<!-- FOOTER START -->
+<footer class="footer">
+    <div class="footer-container">
+
+        <div class="footer-col">
+            <h4>Hemo Campus</h4>
+            <p>Connecting Blood Donors and Blood Banks across India. Donate Blood, Save Lives.</p>
+        </div>
+
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/blood-availability/">Blood Availability</a></li>
+                <li><a href="/register/">Register as Donor</a></li>
+                <li><a href="/about/">About Us</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4>Services</h4>
+            <ul>
+                <li><a href="/donate/">Donate Blood</a></li>
+               <li><a href="/request-blood/">Request Blood</a></li>
+                <li><a href="/blood-center-directory/">Blood Banks</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4>Contact</h4>
+            <p>Email: info@hemocampus.com</p>
+            <p>Phone: +91 XXXXX XXXXX</p>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        © 2026 Hemo Campus - Developed by Pankaj,Abhishek,Ranjeet,Anisha,Sandhya,Garima. Guided by Mentor. Akhilesh Sir | Mecatredz Mechnology
+    </div>
+</footer>
+<!-- FOOTER END -->
+
+</body>
+</html>

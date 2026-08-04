@@ -1,0 +1,482 @@
+{% extends 'AdminPages/AdminMaster.html' %}
+{% block content %}
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HemoCampus - Manage Donors</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f5f7fa;
+    color: #1e293b;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+  /* Header */
+  .topbar {
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+  .topbar-inner { height: 58px; display: flex; align-items: center; }
+  .brand {
+    display: flex; align-items: center; gap: 10px;
+    color: #dc2626; font-weight: 800; font-size: 20px; letter-spacing: -0.2px;
+  }
+  .brand svg { width: 26px; height: 26px; }
+
+  /* Page title */
+  .page-header { text-align: center; padding: 32px 0 24px; }
+  .page-header h1 {
+    margin: 0 0 6px; font-size: 28px; font-weight: 800; letter-spacing: -0.4px;
+  }
+  .page-header p { margin: 0; color: #64748b; font-size: 15px; }
+
+  /* Stats */
+  .stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    margin-bottom: 24px;
+  }
+  .stat-card {
+    background: #fff; border-radius: 12px; padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.04);
+    border: 1px solid #f1f5f9;
+  }
+  .stat-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .stat-value { font-size: 28px; font-weight: 700; line-height: 1; }
+  .stat-label { font-size: 13px; color: #64748b; margin-top: 6px; font-weight: 500; }
+  .stat-icon {
+    width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .stat-icon svg { width: 22px; height: 22px; stroke-width: 2; fill: none; stroke: currentColor; }
+  .stat-icon.red { background: #fee2e2; color: #dc2626; }
+  .stat-icon.amber { background: #fef3c7; color: #d97706; }
+  .stat-icon.green { background: #dcfce7; color: #16a34a; }
+  .stat-icon.indigo { background: #e0e7ff; color: #4338ca; }
+
+  /* Main card */
+  .card {
+    background: #fff; border-radius: 12px; padding: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 8px 24px rgba(0,0,0,0.06);
+    border: 1px solid #f1f5f9; margin-bottom: 32px;
+  }
+
+  /* Controls */
+  .table-controls {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 12px; margin-bottom: 18px; flex-wrap: wrap;
+  }
+  .search { position: relative; flex: 1; min-width: 220px; max-width: 340px; }
+  .search svg {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    width: 18px; height: 18px; color: #94a3b8; pointer-events: none;
+  }
+  .search input {
+    width: 100%; padding: 10px 14px 10px 38px; border: 1px solid #e2e8f0;
+    border-radius: 10px; font-size: 14px; background: #f8fafc; color: #1e293b;
+    outline: none; transition: all .2s;
+  }
+  .search input:focus {
+    background: #fff; border-color: #dc2626;
+    box-shadow: 0 0 0 3px rgba(220,38,38,0.1);
+  }
+  .filters select {
+    padding: 10px 36px 10px 14px; border: 1px solid #e2e8f0; border-radius: 10px;
+    font-size: 14px; background: #fff; color: #1e293b; outline: none; cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center;
+  }
+
+  /* Table */
+  .table-wrapper {
+    width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;
+    border-radius: 10px; border: 1px solid #eef2f7;
+  }
+  table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 1050px; }
+  thead th {
+    background: #f8fafc; color: #64748b; font-size: 11.5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .04em; text-align: left;
+    padding: 12px 14px; border-bottom: 1px solid #e2e8f0; white-space: nowrap;
+    position: sticky; top: 0; z-index: 1;
+  }
+  tbody td {
+    padding: 14px; font-size: 14px; border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle; white-space: nowrap; background: #fff;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: #f9fafb; }
+  .donor-id {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12.5px; color: #475569; font-weight: 600;
+    background: #f1f5f9; padding: 4px 8px; border-radius: 6px;
+  }
+  .name { font-weight: 600; color: #0f172a; }
+  .email { color: #64748b; font-size: 13px; }
+  .muted { color: #94a3b8; font-style: italic; }
+
+  /* Badges */
+  .badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 5px 10px; border-radius: 999px; font-size: 12px; font-weight: 700;
+    line-height: 1; border: 1px solid transparent;
+  }
+  .badge.blood-o-pos { background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
+  .badge.blood-a-pos { background: #fef3c7; color: #92400e; border-color: #fde68a; }
+  .badge.blood-b-pos { background: #dbeafe; color: #1e40af; border-color: #bfdbfe; }
+  .badge.blood-ab-neg { background: #f3e8ff; color: #6b21a8; border-color: #e9d5ff; }
+  .badge.blood-o-neg { background: #ffedd5; color: #9a3412; border-color: #fed7aa; }
+  .badge.blood-a-neg { background: #fce7f3; color: #9d174d; border-color: #fbcfe8; }
+  .badge.blood-b-neg { background: #e0f2fe; color: #075985; border-color: #bae6fd; }
+  .badge.blood-ab-pos { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
+
+  .status {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;
+  }
+  .status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; }
+  .status.pending { background: #fef3c7; color: #92400e; }
+  .status.pending::before { background: #d97706; }
+  .status.approved { background: #dcfce7; color: #166534; }
+  .status.approved::before { background: #16a34a; }
+  .status.rejected { background: #fee2e2; color: #991b1b; }
+  .status.rejected::before { background: #dc2626; }
+
+  /* Buttons */
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn {
+    appearance: none; border: none; cursor: pointer; font-size: 13px; font-weight: 600;
+    padding: 7px 14px; border-radius: 999px; line-height: 1; transition: all .18s ease;
+    display: inline-flex; align-items: center; justify-content: center; white-space: nowrap;
+  }
+  .btn-approve { background: #0E6B5C; color: #fff; }
+  .btn-approve:hover { background: #0a5549; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(14,107,92,0.25); }
+  .btn-reject { background: #dc2626; color: #fff; }
+  .btn-reject:hover { background: #b91c1c; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(220,38,38,0.25); }
+  .btn-view { background: #e2e8f0; color: #334155; }
+  .btn-view:hover { background: #cbd5e1; }
+  .btn-reconsider { background: #fff; color: #dc2626; border: 1.5px solid #fecaca; }
+  .btn-reconsider:hover { background: #fef2f2; }
+
+  footer {
+    text-align: center; padding: 32px 20px 40px; color: #94a3b8; font-size: 13px;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    table { min-width: 900px; }
+  }
+  @media (max-width: 640px) {
+    .container { padding: 0 16px; }
+    .page-header { padding: 24px 0 20px; }
+    .page-header h1 { font-size: 24px; }
+    .stats { gap: 12px; }
+    .stat-card { padding: 16px; }
+    .stat-value { font-size: 24px; }
+    .card { padding: 16px; border-radius: 10px; }
+    .table-controls { flex-direction: column; align-items: stretch; }
+    .search { max-width: none; }
+    .filters select { width: 100%; }
+  }
+  /* Mobile table cards */
+  @media (max-width: 768px) {
+    .table-wrapper { border: none; overflow: visible; }
+    table { min-width: 0; border-spacing: 0; }
+    thead { display: none; }
+    tbody tr {
+      display: block; background: #fff; border: 1px solid #e2e8f0;
+      border-radius: 12px; margin-bottom: 14px; padding: 6px 12px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    tbody tr:hover td { background: transparent; }
+    tbody td {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 4px; border: none; border-bottom: 1px dashed #f1f5f9;
+      white-space: normal; text-align: right; gap: 12px; background: transparent;
+    }
+    tbody td:last-child { border-bottom: none; }
+    tbody td::before {
+      content: attr(data-label); font-size: 11px; font-weight: 700; color: #64748b;
+      text-transform: uppercase; letter-spacing: .03em; text-align: left; flex-shrink: 0;
+    }
+    td[data-label="Action"] { display: block; text-align: left; padding-top: 12px; }
+    td[data-label="Action"]::before { display: block; margin-bottom: 8px; }
+    .actions { justify-content: flex-start; }
+    .donor-id { background: transparent; padding: 0; }
+    .name { text-align: right; }
+  }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2C12 2 5 10 5 15c0 3.9 3.1 7 7 7s7-3.1 7-7c0-5-7-13-7-13z"/>
+        </svg>
+        HemoCampus
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <h1>Manage Donors</h1>
+      <p>Review and approve new donor registrations</p>
+    </div>
+
+    <section class="stats">
+      <div class="stat-card">
+        <div class="stat-top">
+          <div>
+            <div class="stat-value">1,248</div>
+            <div class="stat-label">Total Donors</div>
+          </div>
+          <div class="stat-icon red">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 1 1 0 7.75"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top">
+          <div>
+            <div class="stat-value">24</div>
+            <div class="stat-label">Pending Approval</div>
+          </div>
+          <div class="stat-icon amber">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top">
+          <div>
+            <div class="stat-value">8</div>
+            <div class="stat-label">Approved Today</div>
+          </div>
+          <div class="stat-icon green">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top">
+          <div>
+            <div class="stat-value">892</div>
+            <div class="stat-label">Active Donors</div>
+          </div>
+          <div class="stat-icon indigo">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0-7.78z"/></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="table-controls">
+        <div class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" placeholder="Search by name, ID, phone...">
+        </div>
+        <div class="filters">
+          <select aria-label="Filter by blood group">
+            <option>All Blood Groups</option>
+            <option>O+</option>
+            <option>O-</option>
+            <option>A+</option>
+            <option>A-</option>
+            <option>B+</option>
+            <option>B-</option>
+            <option>AB+</option>
+            <option>AB-</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>S.No</th>
+              <th>Donor ID</th>
+              <th>Full Name</th>
+              <th>Blood Group</th>
+              <th>Age</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>City</th>
+              <th>Last Donation</th>
+              <th>Registered On</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="S.No">1</td>
+              <td data-label="Donor ID"><span class="donor-id">HD-1024</span></td>
+              <td data-label="Full Name"><div class="name">Rahul Sharma</div></td>
+              <td data-label="Blood Group"><span class="badge blood-o-pos">O+</span></td>
+              <td data-label="Age">24</td>
+              <td data-label="Phone">9876543210</td>
+              <td data-label="Email"><span class="email">rahul@email.com</span></td>
+              <td data-label="City">Lucknow</td>
+              <td data-label="Last Donation">2024-03-15</td>
+              <td data-label="Registered On">2025-12-01</td>
+              <td data-label="Status"><span class="status pending">Pending</span></td>
+              <td data-label="Action">
+                <div class="actions">
+                  <button type="button" class="btn btn-approve">Approve</button>
+                  <button type="button" class="btn btn-reject">Reject</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="S.No">2</td>
+              <td data-label="Donor ID"><span class="donor-id">HD-1025</span></td>
+              <td data-label="Full Name"><div class="name">Priya Singh</div></td>
+              <td data-label="Blood Group"><span class="badge blood-a-pos">A+</span></td>
+              <td data-label="Age">28</td>
+              <td data-label="Phone">8765432109</td>
+              <td data-label="Email"><span class="email">priya@email.com</span></td>
+              <td data-label="City">Kanpur</td>
+              <td data-label="Last Donation"><span class="muted">Never</span></td>
+              <td data-label="Registered On">2025-12-02</td>
+              <td data-label="Status"><span class="status pending">Pending</span></td>
+              <td data-label="Action">
+                <div class="actions">
+                  <button type="button" class="btn btn-approve">Approve</button>
+                  <button type="button" class="btn btn-reject">Reject</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="S.No">3</td>
+              <td data-label="Donor ID"><span class="donor-id">HD-1026</span></td>
+              <td data-label="Full Name"><div class="name">Aman Verma</div></td>
+              <td data-label="Blood Group"><span class="badge blood-b-pos">B+</span></td>
+              <td data-label="Age">32</td>
+              <td data-label="Phone">7654321098</td>
+              <td data-label="Email"><span class="email">aman@email.com</span></td>
+              <td data-label="City">Delhi</td>
+              <td data-label="Last Donation">2024-08-20</td>
+              <td data-label="Registered On">2025-11-28</td>
+              <td data-label="Status"><span class="status approved">Approved</span></td>
+              <td data-label="Action">
+                <div class="actions">
+                  <button type="button" class="btn btn-view">View</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="S.No">4</td>
+              <td data-label="Donor ID"><span class="donor-id">HD-1027</span></td>
+              <td data-label="Full Name"><div class="name">Sneha Patel</div></td>
+              <td data-label="Blood Group"><span class="badge blood-ab-neg">AB-</span></td>
+              <td data-label="Age">26</td>
+              <td data-label="Phone">6543210987</td>
+              <td data-label="Email"><span class="email">sneha@email.com</span></td>
+              <td data-label="City">Mumbai</td>
+              <td data-label="Last Donation"><span class="muted">Never</span></td>
+              <td data-label="Registered On">2025-12-03</td>
+              <td data-label="Status"><span class="status pending">Pending</span></td>
+              <td data-label="Action">
+                <div class="actions">
+                  <button type="button" class="btn btn-approve">Approve</button>
+                  <button type="button" class="btn btn-reject">Reject</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="S.No">5</td>
+              <td data-label="Donor ID"><span class="donor-id">HD-1028</span></td>
+              <td data-label="Full Name"><div class="name">Arjun Kumar</div></td>
+              <td data-label="Blood Group"><span class="badge blood-o-neg">O-</span></td>
+              <td data-label="Age">30</td>
+              <td data-label="Phone">9432109876</td>
+              <td data-label="Email"><span class="email">arjun@email.com</span></td>
+              <td data-label="City">Patna</td>
+              <td data-label="Last Donation">2024-01-10</td>
+              <td data-label="Registered On">2025-11-25</td>
+              <td data-label="Status"><span class="status approved">Approved</span></td>
+              <td data-label="Action">
+                <div class="actions">
+                  <button type="button" class="btn btn-view">View</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="S.No">6</td>
+              <td data-label="Donor ID"><span class="donor-id">HD-1029</span></td>
+              <td data-label="Full Name"><div class="name">Neha Gupta</div></td>
+              <td data-label="Blood Group"><span class="badge blood-a-neg">A-</span></td>
+              <td data-label="Age">22</td>
+              <td data-label="Phone">8321098765</td>
+              <td data-label="Email"><span class="email">neha@email.com</span></td>
+              <td data-label="City">Lucknow</td>
+              <td data-label="Last Donation"><span class="muted">Never</span></td>
+              <td data-label="Registered On">2025-12-03</td>
+              <td data-label="Status"><span class="status pending">Pending</span></td>
+              <td data-label="Action">
+                <div class="actions">
+                  <button type="button" class="btn btn-approve">Approve</button>
+                  <button type="button" class="btn btn-reject">Reject</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="S.No">7</td>
+              <td data-label="Donor ID"><span class="donor-id">HD-1030</span></td>
+              <td data-label="Full Name"><div class="name">Vikram Yadav</div></td>
+              <td data-label="Blood Group"><span class="badge blood-b-neg">B-</span></td>
+              <td data-label="Age">35</td>
+              <td data-label="Phone">7210987654</td>
+              <td data-label="Email"><span class="email">vikram@email.com</span></td>
+              <td data-label="City">Varanasi</td>
+              <td data-label="Last Donation">2023-12-05</td>
+              <td data-label="Registered On">2025-11-20</td>
+              <td data-label="Status"><span class="status rejected">Rejected</span></td>
+              <td data-label="Action">
+                <div class="actions">
+                  <button type="button" class="btn btn-reconsider">Reconsider</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="S.No">8</td>
+              <td data-label="Donor ID"><span class="donor-id">HD-1031</span></td>
+              <td data-label="Full Name"><div class="name">Anjali Mishra</div></td>
+              <td data-label="Blood Group"><span class="badge blood-ab-pos">AB+</span></td>
+              <td data-label="Age">27</td>
+              <td data-label="Phone">6109876543</td>
+              <td data-label="Email"><span class="email">anjali@email.com</span></td>
+              <td data-label="City">Prayagraj</td>
+              <td data-label="Last Donation">2024-06-18</td>
+              <td data-label="Registered On">2025-12-01</td>
+              <td data-label="Status"><span class="status approved">Approved</span></td>
+              <td data-label="Action">
+                <div class="actions">
+                  <button type="button" class="btn btn-view">View</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer> <strong> Developed by Pankaj Upadhyay, Abhishek kumar, Ranjeet Bharti, Anisha kumari, Km. Sandhya Bharti, Garima Singh </strong> </footer>
+<script>(function(){document.addEventListener("click",function(e){var a=e.target.closest("[data-product-id]");if(!a)return;e.preventDefault();var pid=a.getAttribute("data-product-id");if(pid)parent.postMessage({type:"ecto-artifact-link-click",productId:pid},"*")})})();</script>
+</body>
+
+{% endblock %}

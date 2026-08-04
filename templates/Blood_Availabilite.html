@@ -1,0 +1,219 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}Blood Availability - Hemo Campus{% endblock %}
+
+{% block content %}
+<style>
+    .container {
+        padding: 25px 30px;
+        background: #fff;
+    }
+    .heading {
+        color: #8B0000;
+        font-size: 22px;
+        font-weight: 700;
+        margin: 0 0 20px 0;
+    }
+    .filter-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 25px;
+        align-items: flex-end;
+    }
+    .form-group {
+        flex: 1;
+        min-width: 200px;
+    }
+    label {
+        font-size: 13px;
+        color: #555;
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+    }
+    select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+        background: #fff;
+        box-sizing: border-box;
+    }
+    select:disabled {
+        background: #f5f5f5;
+        cursor: not-allowed;
+    }
+    .btn-search {
+        padding: 11px 40px;
+        background: #8B0000;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .btn-search:hover {
+        background: #6d0000;
+    }
+    .result-heading {
+        font-size: 16px;
+        font-weight: 700;
+        color: #333;
+        margin: 0 0 15px 0;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+    thead {
+        background: #f8e9e9;
+    }
+    th {
+        padding: 12px;
+        text-align: left;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    .no-data {
+        text-align: center;
+        padding: 60px 20px;
+        color: #999;
+    }
+    .no-data-icon {
+        font-size: 50px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="container">
+    <h2 class="heading">Nearest Blood Center(BB)/ Blood Storage Unit(BSU)</h2>
+    
+    <!-- Filter Section -->
+    <div class="filter-row">  
+        <div class="form-group">
+            <label>Select Services</label>
+            <select onchange="if(this.value) window.location.href=this.value">
+                <option value="">Select Service</option>
+{#                <option value="/blood-center-directory/">Blood Center Directory</option>#}
+{#                <option value="/camp-schedule/">Camp Schedule</option>#}
+                <option value="/blood-availability/" selected>Blood Availability</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Select State</label>
+            <select id="stateSelect" onchange="loadDistricts()">
+                <option value="">Select State</option>
+                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                <option value="Assam">Assam</option>
+                <option value="Bihar">Bihar</option>
+                <option value="Chhattisgarh">Chhattisgarh</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Goa">Goa</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="Haryana">Haryana</option>
+                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                <option value="Jharkhand">Jharkhand</option>
+                <option value="Karnataka">Karnataka</option>
+                <option value="Kerala">Kerala</option>
+                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Manipur">Manipur</option>
+                <option value="Meghalaya">Meghalaya</option>
+                <option value="Mizoram">Mizoram</option>
+                <option value="Nagaland">Nagaland</option>
+                <option value="Odisha">Odisha</option>
+                <option value="Punjab">Punjab</option>
+                <option value="Rajasthan">Rajasthan</option>
+                <option value="Sikkim">Sikkim</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="Telangana">Telangana</option>
+                <option value="Tripura">Tripura</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                <option value="Uttarakhand">Uttarakhand</option>
+                <option value="West Bengal">West Bengal</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Select District</label>
+            <select id="districtSelect" disabled>
+                <option value="">Select District</option>
+            </select>
+        </div>
+        <button class="btn-search">Search</button>
+    </div>
+    
+    <!-- Search Result -->
+    <h3 class="result-heading">Search Result</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>S.No.</th>
+                <th>Blood Center</th>
+                <th>Category</th>
+                <th>Distance</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="5" class="no-data">
+                    <div class="no-data-icon">📦</div>
+                    <div>No data</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // UP ke 75 Jile
+    const upDistricts = [
+        "Agra", "Aligarh", "Ambedkar Nagar", "Amethi", "Amroha", "Auraiya", "Ayodhya", "Azamgarh", 
+        "Baghpat", "Bahraich", "Ballia", "Balrampur", "Banda", "Barabanki", "Bareilly", "Basti", 
+        "Bhadohi", "Bijnor", "Budaun", "Bulandshahr", "Chandauli", "Chitrakoot", "Deoria", "Etah", 
+        "Etawah", "Farrukhabad", "Fatehpur", "Firozabad", "Gautam Buddha Nagar", "Ghaziabad", 
+        "Ghazipur", "Gonda", "Gorakhpur", "Hamirpur", "Hapur", "Hardoi", "Hathras", "Jalaun", 
+        "Jaunpur", "Jhansi", "Kannauj", "Kanpur Dehat", "Kanpur Nagar", "Kasganj", "Kaushambi", 
+        "Kheri", "Kushinagar", "Lalitpur", "Lucknow", "Maharajganj", "Mahoba", "Mainpuri", "Mathura", 
+        "Mau", "Meerut", "Mirzapur", "Moradabad", "Muzaffarnagar", "Pilibhit", "Pratapgarh", 
+        "Prayagraj", "Raebareli", "Rampur", "Saharanpur", "Sambhal", "Sant Kabir Nagar", 
+        "Shahjahanpur", "Shamli", "Shrawasti", "Siddharthnagar", "Sitapur", "Sonbhadra", 
+        "Sultanpur", "Unnao", "Varanasi"
+    ];
+    
+    function loadDistricts() {
+        const state = document.getElementById("stateSelect").value;
+        const districtSelect = document.getElementById("districtSelect"); 
+        
+        districtSelect.innerHTML = '<option value="">Select District</option>';       
+        
+        if(state === "Uttar Pradesh") {
+            districtSelect.disabled = false;
+            upDistricts.forEach(dist => {
+                let option = document.createElement("option");
+                option.value = dist;
+                option.text = dist;
+                districtSelect.appendChild(option);
+            });
+        } else if(state !== "") {
+            districtSelect.disabled = false;
+            let option = document.createElement("option");
+            option.text = "Other State - Data not available";
+            districtSelect.appendChild(option);
+        } else {
+            districtSelect.disabled = true;
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,320 @@
+{% extends 'master.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Camp Schedule</title>
+</head>
+<body style="margin:0; font-family:'Segoe UI', Arial, sans-serif; background:#f2f2f2;">
+<div style="padding:20px 30px; background:#fff;">
+  <!-- Heading -->
+  <h2 style="color:#8B0000; font-size:24px; font-weight:700; margin:0 0 20px;">Camp Schedule</h2>
+  <!-- Filter Section -->
+  <div style="display:flex; flex-wrap:wrap; gap:15px; margin-bottom:15px; align-items:flex-end;"> 
+    <div style="flex:1; min-width:180px;">
+      <label style="font-size:13px; color:#555; display:block; margin-bottom:5px;">Select Services</label>
+      <select style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px; font-size:14px; background:#fff;">
+        <option>Camp Schedule</option>
+{#         <option>Blood Availability</option>#}
+{#        <option>Blood Center Directory</option>#}
+      </select>
+    </div>
+    <div style="flex:1; min-width:180px;">
+      <label style="font-size:13px; color:#555; display:block; margin-bottom:5px;">Select State</label>
+      <select style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px; font-size:14px; background:#fff;">
+        <option>Select State</option>
+        <option>Select</option>
+        <option>Uttar Pradesh</option>
+        <option>Andhra Pradesh</option>
+        <option>Assam</option>
+        <option>Goa</option>
+        <option>Bihar</option>
+        <option>Chhattisgarh</option>
+        <option>Gujarat</option>
+        <option>Haryana</option>
+        <option>HimachalPradesh</option>
+        <option>Jharkhand</option>
+        <option>Kerala</option>
+        <option>Karnataka</option>
+        <option>MadhyaPradesh</option>
+        <option>Maharashtra</option>
+        <option>Manipur</option>
+        <option>Meghalaya</option>
+        <option>Mizoram</option>
+        <option>Nagaland</option>
+        <option>Odisha</option>
+        <option>Punjab</option>
+        <option>Rajasthan</option>
+        <option>Sikkim</option>
+        <option>Tamil Nadu</option>
+        <option>Telangana</option>
+        <option>Tripura</option>
+        <option>Uttarakhand</option>
+        <option>West Bengal</option>
+      </select>
+    </div>
+    <div style="flex:1; min-width:180px;">
+      <label style="font-size:13px; color:#555; display:block; margin-bottom:5px;">Select District</label>
+      <select style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px; font-size:14px; background:#fff;">
+         <option value="">Select District</option>
+          <option value="Agra">Agra</option>
+          <option value="Aligarh">Aligarh</option>
+          <option value="Ambedkar Nagar">Ambedkar Nagar</option>
+          <option value="Amethi">Amethi</option>
+          <option value="Amroha">Amroha</option>
+          <option value="Auraiya">Auraiya</option>
+          <option value="Ayodhya">Ayodhya</option>
+          <option value="Azamgarh">Azamgarh</option>
+          <option value="Baghpat">Baghpat</option>
+          <option value="Bahraich">Bahraich</option>
+          <option value="Ballia">Ballia</option>
+          <option value="Balrampur">Balrampur</option>
+          <option value="Banda">Banda</option>
+          <option value="Barabanki">Barabanki</option>
+          <option value="Bareilly">Bareilly</option>
+          <option value="Basti">Basti</option>
+          <option value="Bhadohi">Bhadohi</option>
+          <option value="Bijnor">Bijnor</option>
+          <option value="Budaun">Budaun</option>
+          <option value="Bulandshahr">Bulandshahr</option>
+          <option value="Chandauli">Chandauli</option>
+          <option value="Chitrakoot">Chitrakoot</option>
+          <option value="Deoria">Deoria</option>
+          <option value="Etah">Etah</option>
+          <option value="Etawah">Etawah</option>
+          <option value="Farrukhabad">Farrukhabad</option>
+          <option value="Fatehpur">Fatehpur</option>
+          <option value="Firozabad">Firozabad</option>
+          <option value="Gautam Buddha Nagar">Gautam Buddha Nagar</option>
+          <option value="Ghaziabad">Ghaziabad</option>
+          <option value="Ghazipur">Ghazipur</option>
+          <option value="Gonda">Gonda</option>
+          <option value="Gorakhpur">Gorakhpur</option>
+          <option value="Hamirpur">Hamirpur</option>
+          <option value="Hapur">Hapur</option>
+          <option value="Hardoi">Hardoi</option>
+          <option value="Hathras">Hathras</option>
+          <option value="Jalaun">Jalaun</option>
+          <option value="Jaunpur">Jaunpur</option>
+          <option value="Jhansi">Jhansi</option>
+          <option value="Kannauj">Kannauj</option>
+          <option value="Kanpur Dehat">Kanpur Dehat</option>
+          <option value="Kanpur Nagar">Kanpur Nagar</option>
+          <option value="Kasganj">Kasganj</option>
+          <option value="Kaushambi">Kaushambi</option>
+          <option value="Kheri">Kheri</option>
+          <option value="Kushinagar">Kushinagar</option>
+          <option value="Lalitpur">Lalitpur</option>
+          <option value="Lucknow">Lucknow</option>
+          <option value="Maharajganj">Maharajganj</option>
+          <option value="Mahoba">Mahoba</option>
+          <option value="Mainpuri">Mainpuri</option>
+          <option value="Mathura">Mathura</option>
+          <option value="Mau">Mau</option>
+          <option value="Meerut">Meerut</option>
+          <option value="Mirzapur">Mirzapur</option>
+          <option value="Moradabad">Moradabad</option>
+          <option value="Muzaffarnagar">Muzaffarnagar</option>
+          <option value="Pilibhit">Pilibhit</option>
+          <option value="Pratapgarh">Pratapgarh</option>
+          <option value="Prayagraj">Prayagraj</option>
+          <option value="Raebareli">Raebareli</option>
+          <option value="Rampur">Rampur</option>
+          <option value="Saharanpur">Saharanpur</option>
+          <option value="Sambhal">Sambhal</option>
+          <option value="Sant Kabir Nagar">Sant Kabir Nagar</option>
+          <option value="Shahjahanpur">Shahjahanpur</option>
+          <option value="Shamli">Shamli</option>
+          <option value="Shrawasti">Shrawasti</option>
+          <option value="Siddharthnagar">Siddharthnagar</option>
+          <option value="Sitapur">Sitapur</option>
+          <option value="Sonbhadra">Sonbhadra</option>
+          <option value="Sultanpur">Sultanpur</option>
+          <option value="Unnao">Unnao</option>
+          <option value="Varanasi">Varanasi</option>
+      </select>
+    </div>
+    <div style="flex:1; min-width:160px;">
+      <label style="font-size:13px; color:#555; display:block; margin-bottom:5px;">Start Date</label>
+      <div style="position:relative;">
+        <input type="date" value="2026-07-09" style="width:100%; padding:10px 10px 10px 35px; border:1px solid #ddd; border-radius:5px; font-size:14px; box-sizing:border-box;">
+        <span style="position:absolute; left:10px; top:10px;">📅</span>
+      </div>
+    </div>
+    <div style="flex:1; min-width:160px;">
+      <label style="font-size:13px; color:#555; display:block; margin-bottom:5px;">To Date</label>
+      <div style="position:relative;">
+        <input type="date" value="2026-07-09" style="width:100%; padding:10px 10px 10px 35px; border:1px solid #ddd; border-radius:5px; font-size:14px; box-sizing:border-box;">
+        <span style="position:absolute; left:10px; top:10px;">📅</span>
+      </div>
+    </div>
+  </div>
+  <!-- Search Button -->
+  <button style="padding:12px 45px; background:#8B0000; color:#fff; border:none; border-radius:5px; font-size:15px; font-weight:600; cursor:pointer; margin-bottom:25px;">
+    Search
+  </button>
+  <!-- Notification Bar -->
+  <div style="background:#f8e9e9; padding:15px 20px; border-radius:8px; display:flex; align-items:center; gap:20px; flex-wrap:wrap; margin-bottom:25px;">  
+    <div style="display:flex; align-items:center; gap:15px; flex:2; min-width:250px;">
+      <div style="font-size:40px;">🩸</div>
+      <div>
+        <div style="color:#8B0000; font-weight:700; font-size:15px;">Get Notified About Nearby Camps!</div>
+        <div style="color:#666; font-size:13px;">Get alerts for nearby blood donation camps.</div>
+      </div>
+    </div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap; flex:3;">
+      <select style="padding:10px; border:1px solid #ddd; border-radius:5px; font-size:14px; background:#fff; min-width:120px;">
+        <option>Select</option>
+        <option>Uttar Pradesh</option>
+        <option>Andhra Pradesh</option>
+        <option>Assam</option>
+        <option>Goa</option>
+        <option>Bihar</option>
+        <option>Chhattisgarh</option>
+        <option>Gujarat</option>
+        <option>Haryana</option>
+        <option>HimachalPradesh</option>
+        <option>Jharkhand</option>
+        <option>Kerala</option>
+        <option>Karnataka</option>
+        <option>MadhyaPradesh</option>
+        <option>Maharashtra</option>
+        <option>Manipur</option>
+        <option>Meghalaya</option>
+        <option>Mizoram</option>
+        <option>Nagaland</option>
+        <option>Odisha</option>
+        <option>Punjab</option>
+        <option>Rajasthan</option>
+        <option>Sikkim</option>
+        <option>Tamil Nadu</option>
+        <option>Telangana</option>
+        <option>Tripura</option>
+        <option>Uttarakhand</option>
+        <option>West Bengal</option>
+      </select>
+      <select style="padding:10px; border:1px solid #ddd; border-radius:5px; font-size:14px; background:#fff; min-width:120px;">
+        <option value="">Select District</option>
+          <option value="Agra">Agra</option>
+          <option value="Aligarh">Aligarh</option>
+          <option value="Ambedkar Nagar">Ambedkar Nagar</option>
+          <option value="Amethi">Amethi</option>
+          <option value="Amroha">Amroha</option>
+          <option value="Auraiya">Auraiya</option>
+          <option value="Ayodhya">Ayodhya</option>
+          <option value="Azamgarh">Azamgarh</option>
+          <option value="Baghpat">Baghpat</option>
+          <option value="Bahraich">Bahraich</option>
+          <option value="Ballia">Ballia</option>
+          <option value="Balrampur">Balrampur</option>
+          <option value="Banda">Banda</option>
+          <option value="Barabanki">Barabanki</option>
+          <option value="Bareilly">Bareilly</option>
+          <option value="Basti">Basti</option>
+          <option value="Bhadohi">Bhadohi</option>
+          <option value="Bijnor">Bijnor</option>
+          <option value="Budaun">Budaun</option>
+          <option value="Bulandshahr">Bulandshahr</option>
+          <option value="Chandauli">Chandauli</option>
+          <option value="Chitrakoot">Chitrakoot</option>
+          <option value="Deoria">Deoria</option>
+          <option value="Etah">Etah</option>
+          <option value="Etawah">Etawah</option>
+          <option value="Farrukhabad">Farrukhabad</option>
+          <option value="Fatehpur">Fatehpur</option>
+          <option value="Firozabad">Firozabad</option>
+          <option value="Gautam Buddha Nagar">Gautam Buddha Nagar</option>
+          <option value="Ghaziabad">Ghaziabad</option>
+          <option value="Ghazipur">Ghazipur</option>
+          <option value="Gonda">Gonda</option>
+          <option value="Gorakhpur">Gorakhpur</option>
+          <option value="Hamirpur">Hamirpur</option>
+          <option value="Hapur">Hapur</option>
+          <option value="Hardoi">Hardoi</option>
+          <option value="Hathras">Hathras</option>
+          <option value="Jalaun">Jalaun</option>
+          <option value="Jaunpur">Jaunpur</option>
+          <option value="Jhansi">Jhansi</option>
+          <option value="Kannauj">Kannauj</option>
+          <option value="Kanpur Dehat">Kanpur Dehat</option>
+          <option value="Kanpur Nagar">Kanpur Nagar</option>
+          <option value="Kasganj">Kasganj</option>
+          <option value="Kaushambi">Kaushambi</option>
+          <option value="Kheri">Kheri</option>
+          <option value="Kushinagar">Kushinagar</option>
+          <option value="Lalitpur">Lalitpur</option>
+          <option value="Lucknow">Lucknow</option>
+          <option value="Maharajganj">Maharajganj</option>
+          <option value="Mahoba">Mahoba</option>
+          <option value="Mainpuri">Mainpuri</option>
+          <option value="Mathura">Mathura</option>
+          <option value="Mau">Mau</option>
+          <option value="Meerut">Meerut</option>
+          <option value="Mirzapur">Mirzapur</option>
+          <option value="Moradabad">Moradabad</option>
+          <option value="Muzaffarnagar">Muzaffarnagar</option>
+          <option value="Pilibhit">Pilibhit</option>
+          <option value="Pratapgarh">Pratapgarh</option>
+          <option value="Prayagraj">Prayagraj</option>
+          <option value="Raebareli">Raebareli</option>
+          <option value="Rampur">Rampur</option>
+          <option value="Saharanpur">Saharanpur</option>
+          <option value="Sambhal">Sambhal</option>
+          <option value="Sant Kabir Nagar">Sant Kabir Nagar</option>
+          <option value="Shahjahanpur">Shahjahanpur</option>
+          <option value="Shamli">Shamli</option>
+          <option value="Shrawasti">Shrawasti</option>
+          <option value="Siddharthnagar">Siddharthnagar</option>
+          <option value="Sitapur">Sitapur</option>
+          <option value="Sonbhadra">Sonbhadra</option>
+          <option value="Sultanpur">Sultanpur</option>
+          <option value="Unnao">Unnao</option>
+          <option value="Varanasi">Varanasi</option>
+      </select>
+      <input type="password" placeholder="Enter Email ..." style="padding:10px; border:1px solid #ddd; border-radius:5px; font-size:14px; min-width:140px;">
+      <input type="tel" placeholder="Enter Mobile..." style="padding:10px; border:1px solid #ddd; border-radius:5px; font-size:14px; min-width:140px;">
+      <button style="padding:10px 25px; background:#fff; color:#8B0000; border:1px solid #8B0000; border-radius:5px; font-size:14px; font-weight:600; cursor:pointer;">
+        Subscribe
+      </button>
+    </div>
+  </div>
+  <!-- Search Result -->
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+    <h3 style="font-size:18px; font-weight:700; color:#333; margin:0;">Search Result</h3>
+    <div style="position:relative;">
+      <input type="text" placeholder="🔍 Search" style="padding:8px 12px 8px 35px; border:1px solid #ddd; border-radius:5px; font-size:14px; width:200px;">
+    </div>
+  </div>
+  <!-- Table -->
+  <div style="overflow-x:auto; background:#fff; border-radius:5px;">
+    <table style="width:100%; border-collapse:collapse;">
+      <thead>
+        <tr style="background:#f8e9e9;">
+          <th style="padding:12px; text-align:left; font-size:14px; font-weight:600; color:#333; border-bottom:1px solid #eee;">S.No.</th>
+          <th style="padding:12px; text-align:left; font-size:14px; font-weight:600; color:#333; border-bottom:1px solid #eee;">Date</th>
+          <th style="padding:12px; text-align:left; font-size:14px; font-weight:600; color:#333; border-bottom:1px solid #eee;">Camp Detail</th>
+          <th style="padding:12px; text-align:left; font-size:14px; font-weight:600; color:#333; border-bottom:1px solid #eee;">State/District</th>
+          <th style="padding:12px; text-align:left; font-size:14px; font-weight:600; color:#333; border-bottom:1px solid #eee;">Contact</th>
+          <th style="padding:12px; text-align:left; font-size:14px; font-weight:600; color:#333; border-bottom:1px solid #eee;">Conducted By</th>
+          <th style="padding:12px; text-align:left; font-size:14px; font-weight:600; color:#333; border-bottom:1px solid #eee;">Organised By</th>
+          <th style="padding:12px; text-align:left; font-size:14px; font-weight:600; color:#333; border-bottom:1px solid #eee;">Time</th>
+          <th style="padding:12px; text-align:left; font-size:14px; font-weight:600; color:#333; border-bottom:1px solid #eee;">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="9" style="text-align:center; padding:60px 20px; color:#999;">
+            <div style="font-size:50px; margin-bottom:10px;">📦</div>
+            <div style="font-size:14px;">No data</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>
+{% endblock %}

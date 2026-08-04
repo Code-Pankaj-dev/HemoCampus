@@ -1,0 +1,199 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Management - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: #ffffff;
+            width: 430px;
+            padding: 45px 35px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(255,0,0,0.25);
+            text-align: center;
+            border-top: 6px solid #e74c3c;
+        }
+
+        .login-container .icon {
+            font-size: 50px;
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+
+        .login-container h2 {
+            color: #c0392b;
+            margin-bottom: 8px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .login-container p.sub {
+            color: #777;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 13px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.1);
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #555;
+        }
+
+        .options a {
+            color: #e74c3c;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .options a:hover {
+            text-decoration: underline;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: linear-gradient(90deg, #c0392b, #a93226);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .extra-links {
+            margin-top: 25px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .extra-links a {
+            color: #e74c3c;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="icon">🩸</div>
+        <h2>Blood Management</h2>
+        <p class="sub">Login to Donate or Request Blood</p>
+
+ <form action="/loginCode/" method="POST">
+
+    {% csrf_token %}
+
+    <div class="input-group">
+        <label>Login As</label>
+        <select name="role" required>
+            <option value="">Select Role</option>
+            <option value="admin">Admin</option>
+            <option value="donor">Donor</option>
+            <option value="hospital">Hospital</option>
+        </select>
+    </div>
+
+    <div class="input-group">
+        <label>Username</label>
+        <input
+            type="text"
+            name="username"
+            placeholder="Enter Username"
+            required
+        >
+    </div>
+
+    <div class="input-group">
+        <label>Password</label>
+        <input
+            type="password"
+            name="password"
+            placeholder="Enter Password"
+            required
+        >
+    </div>
+
+    <div class="options">
+        <label>
+            <input type="checkbox" name="remember">
+            Remember Me
+        </label>
+
+        <a href="#">Forgot Password?</a>
+    </div>
+
+    <button type="submit" class="btn">
+        Login
+    </button>
+
+</form>
+
+        <div class="extra-links">
+            <p>New Donor? <a href="/register/">Register Here</a></p>
+        </div>
+         <div class="extra-links">
+            <p>New Hospital? <a href="/hospital_registration/">Hospital Register Here</a></p>
+        </div>
+    </div>
+</body>
+</html>                                                                  

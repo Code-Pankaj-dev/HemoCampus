@@ -1,0 +1,740 @@
+ /* ==========================================
+   HemoCampus Hospital Dashboard
+   Developed By : Pankaj Upadhyay
+========================================== */
+
+:root{
+
+    --primary:#dc2626;
+    --primary-light:#fee2e2;
+
+    --secondary:#1e293b;
+    --secondary-light:#334155;
+
+    --white:#ffffff;
+
+    --light:#f8fafc;
+
+    --border:#e2e8f0;
+
+    --text:#475569;
+
+    --success:#16a34a;
+
+    --warning:#f59e0b;
+
+    --danger:#dc2626;
+
+    --info:#0284c7;
+
+    --shadow:0 10px 25px rgba(0,0,0,.08);
+
+    --radius:18px;
+
+}
+
+/* ============================= */
+
+body{
+
+    background:#f5f7fb;
+
+    font-family:'Inter',sans-serif;
+
+    color:var(--text);
+
+}
+
+/* ============================= */
+
+.container-fluid{
+
+    animation:fadeIn .5s ease;
+
+}
+
+/* ============================= */
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ============================= */
+
+.dashboard-card{
+
+    border-radius:var(--radius);
+
+    transition:.35s;
+
+    overflow:hidden;
+
+    background:#fff;
+
+}
+
+/* ============================= */
+
+.dashboard-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
+
+}
+
+/* ============================= */
+
+.dashboard-card .card-body{
+
+    padding:25px;
+
+}
+
+/* ============================= */
+
+.dashboard-card h6{
+
+    color:#64748b;
+
+    font-size:15px;
+
+    margin-bottom:8px;
+
+}
+
+/* ============================= */
+
+.dashboard-card h2{
+
+    font-size:34px;
+
+    font-weight:700;
+
+}
+
+/* ============================= */
+
+.icon-box{
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:white;
+
+    font-size:26px;
+
+}
+
+/* ============================= */
+
+.card{
+
+    border:none;
+
+    border-radius:18px;
+
+    box-shadow:var(--shadow);
+
+}
+
+/* ============================= */
+
+.card-header{
+
+    border-bottom:1px solid var(--border);
+
+    padding:18px 24px;
+
+    font-weight:600;
+
+}
+
+/* ============================= */
+
+.btn{
+
+    border-radius:12px;
+
+    transition:.30s;
+
+}
+
+/* ============================= */
+
+.btn:hover{
+
+    transform:translateY(-3px);
+
+}
+
+/* ============================= */
+
+.table{
+
+    margin-bottom:0;
+
+}
+
+/* ============================= */
+
+.table thead{
+
+    background:#f8fafc;
+
+}
+
+/* ============================= */
+
+.table th{
+
+    color:#334155;
+
+    font-size:14px;
+
+    font-weight:700;
+
+}
+
+/* ============================= */
+
+.table td{
+
+    vertical-align:middle;
+
+}
+
+/* ============================= */
+
+.badge{
+
+    padding:8px 14px;
+
+    border-radius:30px;
+
+    font-weight:600;
+
+}
+
+/* ============================= */
+
+.pagination .page-link{
+
+    color:var(--primary);
+
+    border-radius:10px;
+
+    margin:0 4px;
+
+}
+
+/* ============================= */
+
+.pagination .active .page-link{
+
+    background:var(--primary);
+
+    border-color:var(--primary);
+
+}
+
+/* ============================= */
+
+.progress{
+
+    height:10px;
+
+    border-radius:50px;
+
+    overflow:hidden;
+
+    background:#edf2f7;
+
+}
+
+/* ============================= */
+
+.progress-bar{
+
+    border-radius:50px;
+
+}
+
+/* ============================= */
+
+.blood-card{
+
+    transition:.35s;
+
+}
+
+/* ============================= */
+
+.blood-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 18px 45px rgba(220,38,38,.20);
+
+}
+
+/* ============================= */
+
+.blood-card h3{
+
+    font-weight:700;
+
+}
+
+/* ============================= */
+
+footer{
+
+    margin-top:40px;
+
+}
+
+/* ============================= */
+
+footer .card{
+
+    background:white;
+
+}
+
+/* ============================= */
+
+.list-group-item{
+
+    border:none;
+
+    border-bottom:1px solid #eee;
+
+    padding:16px;
+
+}
+
+/* ============================= */
+
+.list-group-item:last-child{
+
+    border-bottom:none;
+
+}
+
+/* ============================= */
+
+img.rounded-circle{
+
+    object-fit:cover;
+
+    border:4px solid #fff;
+
+    box-shadow:0 10px 20px rgba(0,0,0,.15);
+
+}
+
+/* ==========================================
+   SEARCH BAR
+========================================== */
+
+#searchInput{
+
+    border-radius:12px;
+
+    padding:12px 18px;
+
+    border:1px solid #d1d5db;
+
+    transition:.3s;
+
+}
+
+#searchInput:focus{
+
+    border-color:var(--primary);
+
+    box-shadow:0 0 0 .25rem rgba(220,38,38,.15);
+
+}
+
+/* ==========================================
+   TABLE
+========================================== */
+
+.table-hover tbody tr{
+
+    transition:.3s;
+
+}
+
+.table-hover tbody tr:hover{
+
+    background:#fff5f5;
+
+    cursor:pointer;
+
+}
+
+.table td{
+
+    padding:15px;
+
+}
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+.btn{
+
+    font-weight:600;
+
+}
+
+.btn-danger{
+
+    background:var(--primary);
+
+    border:none;
+
+}
+
+.btn-danger:hover{
+
+    background:#b91c1c;
+
+}
+
+.btn-primary{
+
+    border:none;
+
+}
+
+.btn-success{
+
+    border:none;
+
+}
+
+.btn-warning{
+
+    border:none;
+
+}
+
+.btn-secondary{
+
+    border:none;
+
+}
+
+/* ==========================================
+   ICON BOX
+========================================== */
+
+.icon-box{
+
+    transition:.4s;
+
+}
+
+.dashboard-card:hover .icon-box{
+
+    transform:rotate(10deg) scale(1.1);
+
+}
+
+/* ==========================================
+   BLOOD CARD
+========================================== */
+
+.blood-card{
+
+    overflow:hidden;
+
+    position:relative;
+
+}
+
+.blood-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:120px;
+
+    height:120px;
+
+    background:rgba(220,38,38,.06);
+
+    border-radius:50%;
+
+    right:-30px;
+
+    top:-30px;
+
+}
+
+.blood-card h5{
+
+    font-size:24px;
+
+    font-weight:700;
+
+}
+
+.blood-card small{
+
+    font-weight:600;
+
+}
+
+/* ==========================================
+   PROFILE CARD
+========================================== */
+
+.rounded-circle{
+
+    transition:.4s;
+
+}
+
+.rounded-circle:hover{
+
+    transform:scale(1.08);
+
+}
+
+/* ==========================================
+   NOTIFICATION PANEL
+========================================== */
+
+.list-group-item{
+
+    transition:.3s;
+
+}
+
+.list-group-item:hover{
+
+    background:#fff5f5;
+
+    padding-left:28px;
+
+}
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+footer{
+
+    padding-bottom:20px;
+
+}
+
+footer p{
+
+    font-weight:600;
+
+}
+
+footer small{
+
+    color:#64748b;
+
+}
+
+/* ==========================================
+   SCROLLBAR
+========================================== */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:var(--primary);
+
+    border-radius:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#f1f5f9;
+
+}
+
+/* ==========================================
+   CARD HEADER
+========================================== */
+
+.card-header{
+
+    background:#fff;
+
+    font-size:18px;
+
+}
+
+/* ==========================================
+   PAGE TITLE
+========================================== */
+
+h2{
+
+    font-weight:700;
+
+}
+
+h4{
+
+    font-weight:700;
+
+}
+
+/* ==========================================
+   BADGE
+========================================== */
+
+.badge{
+
+    letter-spacing:.5px;
+
+}
+
+/* ==========================================
+   LOADER
+========================================== */
+
+#loader{
+
+    position:fixed;
+
+    inset:0;
+
+    background:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:99999;
+
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media(max-width:992px){
+
+    .dashboard-card{
+
+        margin-bottom:20px;
+
+    }
+
+    .icon-box{
+
+        width:55px;
+
+        height:55px;
+
+        font-size:20px;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .container-fluid{
+
+        padding:15px !important;
+
+    }
+
+    .card-body{
+
+        padding:18px;
+
+    }
+
+    h2{
+
+        font-size:24px;
+
+    }
+
+    h4{
+
+        font-size:20px;
+
+    }
+
+    .table{
+
+        font-size:14px;
+
+    }
+
+}
+
+@media(max-width:576px){
+
+    .dashboard-card h2{
+
+        font-size:26px;
+
+    }
+
+    .blood-card h5{
+
+        font-size:20px;
+
+    }
+
+    .btn{
+
+        width:100%;
+
+        margin-bottom:10px;
+
+    }
+
+}

@@ -1,0 +1,480 @@
+{% extends 'master.html' %}
+{% block content %}
+
+
+ 
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LifeDrop – Donate Blood</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --crimson:#9e1b32;
+  --crimson-deep:#7a1426;
+  --ink:#1f1a1c;
+  --muted:#6b5f63;
+  --bg:#fffafb;
+  --card:#ffffff;
+  --ring: rgba(158,27,50,0.15);
+  --ok:#1a7f4b;
+  --warn:#b54708;
+}
+
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color:var(--ink);
+  background: radial-gradient(1200px 650px at 50% -10%, rgba(158,27,50,0.12), transparent 62%), radial-gradient(800px 400px at 90% 0%, rgba(122,20,38,0.08), transparent 60%), var(--bg);
+  -webkit-font-smoothing:antialiased;
+}
+.container{max-width:980px;margin:0 auto;padding:24px}
+.page-head{
+  text-align:center;
+  padding:44px 20px 22px;
+}
+.page-head h1{
+  margin:0 0 10px;
+  font-weight:800;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  letter-spacing:-0.02em;
+  position:relative;
+  display:inline-block;
+  padding-bottom:14px;
+}
+.page-head h1::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:0;
+  width:68%;
+  height:4px;
+  background: linear-gradient(90deg, transparent, var(--crimson), var(--crimson-deep), transparent);
+  border-radius:4px;
+  box-shadow:0 3px 10px rgba(158,27,50,0.28);
+}
+.page-head p{color:var(--muted); margin:10px 0 0; font-size:1.08rem}
+
+.chips{
+  display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:24px 0 32px;
+}
+.chip{
+  background:#fff;
+  border:1px solid #f0e3e6;
+  padding:11px 18px;
+  border-radius:999px;
+  font-size:.93rem;
+  font-weight:600;
+  color:var(--crimson-deep);
+  box-shadow:0 3px 10px rgba(62,12,23,0.07), 0 1px 2px rgba(62,12,23,0.04);
+  transition:all .24s cubic-bezier(.2,.7,.3,1);
+  cursor:default;
+  opacity:0;
+  animation:fadeInUp .55s ease both;
+}
+.chip:nth-child(1){animation-delay:.04s}
+.chip:nth-child(2){animation-delay:.11s}
+.chip:nth-child(3){animation-delay:.18s}
+.chip:nth-child(4){animation-delay:.25s}
+.chip:hover{transform:translateY(-2px); box-shadow:0 8px 18px rgba(62,12,23,0.13); background:#fffefe}
+
+.form-card{
+  background: rgba(255,255,255,0.94);
+  border:1px solid #f1e3e6;
+  border-top:4px solid var(--crimson);
+  border-radius:18px;
+  box-shadow:0 12px 30px rgba(62,12,23,0.12), 0 2px 6px rgba(62,12,23,0.06);
+  padding:30px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: transform .28s ease, box-shadow .28s ease;
+  animation:fadeInUp .7s cubic-bezier(.21,.8,.32,1) both;
+}
+.form-card:hover{transform:translateY(-3px); box-shadow:0 18px 40px rgba(62,12,23,0.16), 0 3px 8px rgba(62,12,23,0.07)}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:18px;
+}
+.field{grid-column:span 6; display:flex; flex-direction:column; gap:7px}
+.field.full{grid-column:1/-1}
+label{font-size:.9rem; font-weight:600; color:#3a2f32; letter-spacing:.01em}
+.field input, .field select{
+  appearance:none;
+  width:100%;
+  padding:12px 14px;
+  border:1.5px solid #e7d6db;
+  border-radius:12px;
+  background:#fcf9fa;
+  font-size:1rem;
+  color:var(--ink);
+  transition:all .2s ease;
+  box-shadow: inset 0 1.5px 3px rgba(31,10,15,0.035);
+}
+.field input::placeholder, .field select:invalid{color:#b49aa1}
+.field input:focus, .field select:focus{
+  outline:none;
+  border-color:var(--crimson);
+  background:#fff;
+  box-shadow:0 0 0 3px rgba(158,27,50,0.15), inset 0 1px 2px rgba(0,0,0,0.02);
+}
+
+/* Minimal icon backgrounds - keeps HTML untouched */
+#name{padding-left:42px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%239e1b32' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='10' cy='7' r='3.3'/%3E%3Cpath d='M4.2 16.8c0-2.9 2.6-4.8 5.8-4.8s5.8 1.9 5.8 4.8'/%3E%3C/svg%3E") no-repeat 12px center #fcf9fa;}
+#age{padding-left:42px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%239e1b32' stroke-width='1.7'%3E%3Crect x='3.2' y='4.5' width='13.6' height='12.5' rx='2'/%3E%3Cpath d='M7 3.2v3M13 3.2v3M3.5 8.5h13'/%3E%3C/svg%3E") no-repeat 12px center #fcf9fa;}
+#phone{padding-left:42px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%239e1b32' stroke-width='1.7'%3E%3Cpath d='M6.2 3.5h2.8l.9 3.4-1.8 1.1c.8 1.6 2 2.8 3.6 3.6l1.1-1.8 3.4.9v2.8c0 .8-.7 1.5-1.5 1.5A11.5 11.5 0 0 1 3.5 5c0-.8.7-1.5 1.5-1.5h1.2z'/%3E%3C/svg%3E") no-repeat 12px center #fcf9fa;}
+#email{padding-left:42px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%239e1b32' stroke-width='1.7'%3E%3Crect x='3' y='5' width='14' height='10' rx='2'/%3E%3Cpath d='M3.5 6.2l6.5 4.3 6.5-4.3'/%3E%3C/svg%3E") no-repeat 12px center #fcf9fa;}
+#address{padding-left:42px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%239e1b32' stroke-width='1.7'%3E%3Cpath d='M10 3.2A4.8 4.8 0 0 0 5.2 8c0 3.8 4.8 8.5 4.8 8.5s4.8-4.7 4.8-8.5A4.8 4.8 0 0 0 10 3.2z'/%3E%3Ccircle cx='10' cy='8' r='1.7'/%3E%3C/svg%3E") no-repeat 12px 10px #fcf9fa;}
+#lastDonation{padding-left:42px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%239e1b32' stroke-width='1.7'%3E%3Ccircle cx='10' cy='10' r='6.8'/%3E%3Cpath d='M10 6.5v3.7l2.7 1.6'/%3E%3C/svg%3E") no-repeat 12px center #fcf9fa;}
+#name:focus, #age:focus, #phone:focus, #email:focus, #address:focus, #lastDonation:focus{background-color:#fff}
+
+.vitals{
+  grid-column:1/-1;
+  margin-top:6px;
+  display:flex; align-items:flex-start; gap:13px;
+  padding:18px 20px;
+  border-radius:12px;
+  background: linear-gradient(180deg, #fff, #fff7f8);
+  border:1px solid #f2e1e5;
+  border-left:4px solid var(--crimson);
+  transition:background .3s ease, border-color .3s ease, box-shadow .3s ease;
+}
+.vitals .dot{
+  width:12px; height:12px; border-radius:50%;
+  background:#d4c4c8;
+  box-shadow:inset 0 0 0 2.5px #fff;
+  transition:all .3s ease;
+  flex:0 0 12px;
+  margin-top:3px;
+}
+.vitals.ok{
+  background: linear-gradient(180deg, #f4fcf7, #eaf8f0);
+  border-color:#d6f0e0;
+  border-left-color:var(--ok);
+  box-shadow:0 4px 14px rgba(26,127,75,0.08);
+}
+.vitals.ok .dot{
+  background:var(--ok);
+  box-shadow:0 0 0 4px rgba(26,127,75,0.18), 0 0 14px rgba(26,127,75,0.42);
+}
+.vitals.warn{
+  background: linear-gradient(180deg, #fff8f2, #fff1e6);
+  border-color:#f5e0c8;
+  border-left-color:var(--warn);
+}
+.vitals.warn .dot{background:var(--warn); box-shadow:0 0 0 4px rgba(181,71,8,0.16), 0 0 10px rgba(181,71,8,0.25)}
+.vitals p{margin:0; font-size:.97rem; color:#3b2f32; line-height:1.45}
+.vitals strong{color:var(--ink); font-weight:700}
+
+.declaration{
+  grid-column:1/-1;
+  display:flex; gap:12px; align-items:flex-start;
+  margin-top:4px;
+  padding:14px 14px;
+  border-radius:12px;
+  background:#fdfbfc;
+  border:1px dashed #e9d8dc;
+}
+.declaration input[type="checkbox"]{
+  margin-top:1px;
+  accent-color:var(--crimson);
+  width:19px; height:19px;
+  transform:scale(1.12);
+  cursor:pointer;
+  flex-shrink:0;
+}
+.declaration label{font-weight:500; color:#4a3b3f; font-size:.95rem; line-height:1.5; cursor:pointer}
+
+.actions{
+  grid-column:1/-1; display:flex; gap:12px; justify-content:flex-end; margin-top:8px;
+}
+.submit-btn{
+  appearance:none;
+  border:none;
+  padding:14px 24px;
+  border-radius:12px;
+  background: linear-gradient(135deg, var(--crimson), var(--crimson-deep));
+  color:#fff;
+  font-weight:700;
+  font-size:1.02rem;
+  letter-spacing:.3px;
+  cursor:pointer;
+  box-shadow:0 6px 16px rgba(158,27,50,0.30), 0 1px 0 rgba(255,255,255,0.18) inset, 0 -1px 0 rgba(0,0,0,0.1) inset;
+  transition:all .22s ease;
+}
+.submit-btn:hover{transform:translateY(-1px); box-shadow:0 10px 22px rgba(158,27,50,0.35), 0 1px 0 rgba(255,255,255,0.18) inset; filter:saturate(1.06) brightness(1.02)}
+.submit-btn:active{transform:translateY(0); box-shadow:0 4px 12px rgba(158,27,50,0.28)}
+.submit-btn:disabled{opacity:.58; cursor:not-allowed; transform:none; filter:grayscale(.15)}
+
+.note{margin-top:18px; text-align:center; color:var(--muted); font-size:.89rem}
+
+@keyframes fadeInUp{from{opacity:0; transform:translateY(12px)} to{opacity:1; transform:translateY(0)}}
+
+@media (max-width: 720px){
+  .container{padding:20px}
+  .grid{gap:14px}
+  .field{grid-column:1/-1}
+  .form-card{padding:22px; border-radius:16px}
+  .page-head{padding:32px 16px 12px}
+  .page-head h1{font-size: clamp(1.9rem, 8vw, 2.6rem)}
+  .chips{gap:8px; margin:18px 0 26px}
+  .actions{justify-content:stretch}
+  .submit-btn{width:100%}
+  .vitals{padding:16px}
+}
+@media (max-width: 390px){
+  .container{padding:14px}
+  .form-card{padding:18px 14px; box-shadow:0 10px 24px rgba(62,12,23,0.12)}
+  .field input, .field select{padding:11px 12px; font-size:.98rem; border-radius:11px}
+  #name,#age,#phone,#email,#address,#lastDonation{padding-left:40px; background-position:11px center}
+  .chip{padding:9px 14px; font-size:.88rem}
+  .declaration{padding:12px}
+}
+</style>
+ 
+ 
+<div class="container">
+  <header class="page-head">
+    <h1>Donate Blood, Save Lives</h1>
+    <p>LifeDrop connects willing donors with those in urgent need. Check your eligibility in seconds.</p>
+  </header>
+
+  <div class="chips" aria-label="Key guidelines">
+    <div class="chip">Age 18–65</div>
+    <div class="chip">Weight ≥ 50 kg</div>
+    <div class="chip">Hemoglobin ≥ 12.5 g/dL</div>
+    <div class="chip">Last donation ≥ 3 months ago</div>
+  </div>
+
+ <form action="{% url 'DonateBloodData' %}" method="POST" class="form-card">
+
+    {% csrf_token %}
+
+    <div class="grid">
+
+        <!-- Full Name -->
+        <div class="field">
+            <label for="name">Full Name</label>
+            <input type="text"
+                   id="name"
+                   name="name"
+                   placeholder="Enter Full Name"
+                   required>
+        </div>
+
+        <!-- Age -->
+        <div class="field">
+            <label for="age">Age</label>
+            <input type="number"
+                   id="age"
+                   name="age"
+                   min="18"
+                   max="65"
+                   placeholder="Enter Age"
+                   required>
+        </div>
+
+        <!-- Phone -->
+        <div class="field">
+            <label for="phone">Phone Number</label>
+            <input type="tel"
+                   id="phone"
+                   name="phone"
+                   pattern="[0-9]{10}"
+                   placeholder="Enter Mobile Number"
+                   required>
+        </div>
+
+        <!-- Email -->
+        <div class="field">
+            <label for="email">Email Address</label>
+            <input type="email"
+                   id="email"
+                   name="email"
+                   placeholder="Enter Email"
+                   required>
+        </div>
+
+        <!-- Blood Group -->
+        <div class="field">
+            <label for="blood">Blood Group</label>
+
+            <select id="blood" name="blood_group" required>
+                <option value="">Select Blood Group</option>
+                <option>A+</option>
+                <option>A-</option>
+                <option>B+</option>
+                <option>B-</option>
+                <option>AB+</option>
+                <option>AB-</option>
+                <option>O+</option>
+                <option>O-</option>
+            </select>
+
+        </div>
+
+        <!-- Weight -->
+        <div class="field">
+            <label for="weight">Weight (kg)</label>
+
+            <input type="number"
+                   id="weight"
+                   name="weight"
+                   min="45"
+                   placeholder="Enter Weight"
+                   required>
+
+        </div>
+
+        <!-- Address -->
+        <div class="field full">
+            <label for="address">Complete Address</label>
+
+            <textarea id="address"
+                      name="address"
+                      rows="4"
+                      placeholder="Enter Complete Address"
+                      required></textarea>
+
+        </div>
+
+        <!-- Last Donation -->
+        <div class="field">
+            <label for="lastDonation">Last Blood Donation Date</label>
+
+            <input type="date"
+                   id="lastDonation"
+                   name="last_donation">
+
+        </div>
+
+        <!-- Hemoglobin -->
+        <div class="field">
+            <label for="hemoglobin">Hemoglobin (g/dL)</label>
+
+            <input type="number"
+                   id="hemoglobin"
+                   name="hemoglobin"
+                   step="0.1"
+                   placeholder="Example : 13.5"
+                   required>
+
+        </div>
+
+        <!-- Eligibility Box -->
+        <div class="vitals" id="vitals">
+            <div class="dot"></div>
+            <p>
+                <strong>Eligibility:</strong>
+                Fill all details to check eligibility.
+            </p>
+        </div>
+
+        <!-- Declaration -->
+        <div class="declaration">
+
+            <input type="checkbox"
+                   id="declare"
+                   required>
+
+            <label for="declare">
+                I confirm that all information provided is true and I am
+                willing to donate blood voluntarily.
+            </label>
+
+        </div>
+
+        <!-- Button -->
+        <div class="actions">
+
+            <button type="submit"
+                    class="submit-btn"
+                    id="submitBtn"
+                    disabled>
+
+                Check Eligibility & Continue
+
+            </button>
+
+        </div>
+
+    </div>
+
+</form>
+</div>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  const vitals = $('vitals');
+  const submitBtn = $('submitBtn');
+
+  const fields = ['name','age','phone','email','blood','weight','address','lastDonation','hemoglobin','declare'];
+  fields.forEach(id => {
+    const el = $(id);
+    if(!el) return;
+    el.addEventListener('input', checkEligibility);
+    el.addEventListener('change', checkEligibility);
+  });
+
+  function monthsBetween(dateStr){
+    if(!dateStr) return null;
+    const then = new Date(dateStr);
+    const now = new Date();
+    const months = (now.getFullYear() - then.getFullYear())*12 + (now.getMonth() - then.getMonth());
+    return months;
+  }
+
+  function checkEligibility(){
+    const age = parseInt($('age').value, 10);
+    const weight = parseFloat($('weight').value);
+    const hb = parseFloat($('hemoglobin').value);
+    const last = $('lastDonation').value;
+    const basicsFilled = $('name').value && $('phone').value && $('blood').value && $('address').value && $('declare').checked;
+
+    let status = 'pending';
+    let msg = 'Fill age, weight, and last donation to check instantly.';
+
+    const ageOk = !isNaN(age) && age >= 18 && age <= 65;
+    const weightOk = !isNaN(weight) && weight >= 50;
+    const months = monthsBetween(last);
+    const donationOk = months === null || months >= 3;
+    const hbOk = isNaN(hb) || hb >= 12.5;
+
+    if(!isNaN(age) && !isNaN(weight)){
+      if(ageOk && weightOk && donationOk && hbOk){
+        status = 'ok';
+        msg = 'You look eligible based on basic criteria. Please continue.';
+      }else{
+        status = 'warn';
+        const reasons = [];
+        if(!ageOk) reasons.push('age must be 18–65');
+        if(!weightOk) reasons.push('weight ≥ 50 kg');
+        if(!donationOk) reasons.push('wait 3 months since last donation');
+        if(!hbOk) reasons.push('hemoglobin ≥ 12.5');
+        msg = 'Not eligible yet: ' + reasons.join(' • ') + '.';
+      }
+    }
+
+    vitals.classList.remove('ok','warn');
+    if(status==='ok') vitals.classList.add('ok');
+    if(status==='warn') vitals.classList.add('warn');
+
+    vitals.querySelector('p').innerHTML = '<strong>Eligibility:</strong> ' + msg;
+
+    const enable = basicsFilled && status==='ok';
+    submitBtn.disabled = !enable;
+    submitBtn.textContent = enable ? 'Continue — Find a Camp Near You' : 'Check Eligibility & Continue';
+  }
+
+  // initialize
+  checkEligibility();
+
+ 
+</script>
+<script>(function(){document.addEventListener("click",function(e){var a=e.target.closest("[data-product-id]");if(!a)return;e.preventDefault();var pid=a.getAttribute("data-product-id");if(pid)parent.postMessage({type:"ecto-artifact-link-click",productId:pid},"*")})})();</script>
+{%  endblock %}

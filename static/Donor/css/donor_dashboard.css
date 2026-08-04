@@ -1,0 +1,1088 @@
+/*==================================================
+        HEMOCAMPUS DONOR DASHBOARD
+        Part 5.1
+==================================================*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root{
+
+    --primary:#dc2626;
+    --primary-dark:#b91c1c;
+    --primary-light:#fee2e2;
+
+    --secondary:#2563eb;
+
+    --success:#16a34a;
+
+    --warning:#f59e0b;
+
+    --danger:#dc2626;
+
+    --dark:#1e293b;
+
+    --light:#f8fafc;
+
+    --white:#ffffff;
+
+    --border:#e2e8f0;
+
+    --text:#475569;
+
+    --shadow:0 10px 25px rgba(0,0,0,.08);
+
+    --radius:18px;
+
+}
+
+*{
+
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+}
+
+body{
+
+    font-family:'Inter',sans-serif;
+
+    background:#f5f7fb;
+
+    color:var(--dark);
+
+}
+
+
+/*=============================
+        PAGE HEADER
+=============================*/
+
+.page-title{
+
+    font-size:30px;
+
+    font-weight:800;
+
+    color:var(--dark);
+
+}
+
+.page-subtitle{
+
+    color:#64748b;
+
+    font-size:15px;
+
+}
+
+
+/*=============================
+        QUICK CARD
+=============================*/
+
+.quick-card{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    box-shadow:var(--shadow);
+
+    text-decoration:none;
+
+    color:#1e293b;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    height:120px;
+
+    transition:.35s;
+
+}
+
+.quick-card i{
+
+    font-size:30px;
+
+    color:#dc2626;
+
+    margin-bottom:12px;
+
+}
+
+.quick-card span{
+
+    font-size:15px;
+
+    font-weight:600;
+
+}
+
+.quick-card:hover{
+
+    transform:translateY(-8px);
+
+    background:#dc2626;
+
+    color:#fff;
+
+}
+
+.quick-card:hover i{
+
+    color:#fff;
+
+}
+
+
+/*=============================
+      DASHBOARD CARD
+=============================*/
+
+.dashboard-card{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    padding:28px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+    box-shadow:var(--shadow);
+
+    transition:.35s;
+
+    height:130px;
+
+}
+
+.dashboard-card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.dashboard-card h6{
+
+    font-size:14px;
+
+    color:#64748b;
+
+}
+
+.dashboard-card h3{
+
+    font-size:32px;
+
+    font-weight:800;
+
+    color:#1e293b;
+
+    margin-top:8px;
+
+}
+
+.dashboard-card h5{
+
+    margin-top:8px;
+
+    font-weight:700;
+
+}
+
+.card-icon{
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:#fff;
+
+    font-size:28px;
+
+}
+
+.bg-danger{
+
+    background:#dc2626!important;
+
+}
+
+.bg-success{
+
+    background:#16a34a!important;
+
+}
+
+.bg-warning{
+
+    background:#f59e0b!important;
+
+}
+
+.bg-info{
+
+    background:#0ea5e9!important;
+
+}
+
+.bg-primary{
+
+    background:#2563eb!important;
+
+}
+
+.bg-secondary{
+
+    background:#475569!important;
+
+}
+
+
+/*=============================
+        TABLE
+=============================*/
+
+.table{
+
+    margin-bottom:0;
+
+}
+
+.table thead{
+
+    background:#f8fafc;
+
+}
+
+.table thead th{
+
+    font-size:14px;
+
+    color:#475569;
+
+    border:none;
+
+    padding:16px;
+
+}
+
+.table tbody td{
+
+    padding:16px;
+
+    border-color:#edf2f7;
+
+    vertical-align:middle;
+
+}
+
+.table-hover tbody tr:hover{
+
+    background:#fff5f5;
+
+}
+
+
+/*=============================
+        BADGE
+=============================*/
+
+.badge{
+
+    padding:8px 14px;
+
+    border-radius:30px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+}
+
+/*==================================================
+        BLOOD AVAILABILITY CARDS
+==================================================*/
+
+.blood-card{
+
+    background:#ffffff;
+
+    border-radius:20px;
+
+    padding:22px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+    transition:.35s;
+
+    overflow:hidden;
+
+    position:relative;
+
+}
+
+.blood-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:5px;
+
+    background:#dc2626;
+
+}
+
+.blood-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 18px 35px rgba(220,38,38,.15);
+
+}
+
+.blood-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:15px;
+
+}
+
+.blood-header h2{
+
+    font-size:34px;
+
+    font-weight:800;
+
+    color:#dc2626;
+
+}
+
+.blood-card h3{
+
+    font-size:28px;
+
+    font-weight:700;
+
+    margin-bottom:15px;
+
+}
+
+.progress{
+
+    height:10px;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+    background:#f1f5f9;
+
+}
+
+.progress-bar{
+
+    border-radius:30px;
+
+}
+
+
+
+/*==================================================
+        NOTIFICATION PANEL
+==================================================*/
+
+.notification-panel{
+
+    max-height:520px;
+
+    overflow-y:auto;
+
+    padding-right:5px;
+
+}
+
+.notification-item{
+
+    display:flex;
+
+    gap:15px;
+
+    padding:15px;
+
+    border-radius:14px;
+
+    transition:.30s;
+
+    margin-bottom:10px;
+
+}
+
+.notification-item:hover{
+
+    background:#fff5f5;
+
+}
+
+.notify-icon{
+
+    width:50px;
+
+    height:50px;
+
+    border-radius:50%;
+
+    background:#fee2e2;
+
+    color:#dc2626;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:20px;
+
+    flex-shrink:0;
+
+}
+
+
+
+/*==================================================
+        PROFILE CARD
+==================================================*/
+
+.profile-photo{
+
+    width:140px;
+
+    height:140px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:6px solid #ffffff;
+
+    box-shadow:0 12px 25px rgba(0,0,0,.15);
+
+}
+
+.table-borderless th{
+
+    width:180px;
+
+    color:#334155;
+
+    font-weight:700;
+
+}
+
+.table-borderless td{
+
+    color:#64748b;
+
+}
+
+
+
+/*==================================================
+        PROGRESS SECTION
+==================================================*/
+
+.progress{
+
+    background:#e2e8f0;
+
+}
+
+.progress-bar{
+
+    font-size:12px;
+
+    font-weight:700;
+
+    text-align:center;
+
+}
+
+
+
+/*==================================================
+        DONATION STATUS
+==================================================*/
+
+.status-approved{
+
+    color:#16a34a;
+
+    font-weight:700;
+
+}
+
+.status-pending{
+
+    color:#f59e0b;
+
+    font-weight:700;
+
+}
+
+.status-rejected{
+
+    color:#dc2626;
+
+    font-weight:700;
+
+}
+
+
+
+/*==================================================
+        CARDS
+==================================================*/
+
+.card{
+
+    border:none;
+
+    border-radius:20px;
+
+    transition:.35s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.card-header{
+
+    border-bottom:1px solid #edf2f7;
+
+    padding:20px;
+
+    background:#ffffff;
+
+}
+
+.card-body{
+
+    padding:22px;
+
+}
+
+
+
+/*==================================================
+        BUTTONS
+==================================================*/
+
+.btn{
+
+    border-radius:12px;
+
+    font-weight:600;
+
+    transition:.30s;
+
+}
+
+.btn-danger:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 8px 20px rgba(220,38,38,.30);
+
+}
+
+.btn-primary:hover{
+
+    transform:translateY(-3px);
+
+}
+
+.btn-success:hover{
+
+    transform:translateY(-3px);
+
+}
+
+
+
+/*==================================================
+        FOOTER
+==================================================*/
+
+footer{
+
+    margin-top:60px;
+
+    padding:25px;
+
+    border-top:1px solid #e2e8f0;
+
+    color:#64748b;
+
+    font-size:14px;
+
+}
+
+footer strong{
+
+    color:#dc2626;
+
+}
+
+
+
+/*==================================================
+        SCROLLBAR
+==================================================*/
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#dc2626;
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#f1f5f9;
+
+}
+
+/*==================================================
+        PART 5.3
+        RESPONSIVE + ANIMATIONS
+==================================================*/
+
+
+/* ==========================
+        GLASS EFFECT
+========================== */
+
+.glass-card{
+
+    background:rgba(255,255,255,.75);
+
+    backdrop-filter:blur(14px);
+
+    border:1px solid rgba(255,255,255,.35);
+
+}
+
+
+/* ==========================
+        HOVER EFFECT
+========================== */
+
+.dashboard-card,
+.quick-card,
+.blood-card,
+.card{
+
+    transition:all .35s ease;
+
+}
+
+.dashboard-card:hover,
+.quick-card:hover,
+.blood-card:hover,
+.card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 18px 35px rgba(0,0,0,.12);
+
+}
+
+
+/* ==========================
+        ICON ANIMATION
+========================== */
+
+.card-icon{
+
+    transition:.35s;
+
+}
+
+.dashboard-card:hover .card-icon{
+
+    transform:rotate(10deg) scale(1.08);
+
+}
+
+
+/* ==========================
+        PROFILE IMAGE
+========================== */
+
+.profile-photo{
+
+    transition:.35s;
+
+}
+
+.profile-photo:hover{
+
+    transform:scale(1.08);
+
+}
+
+
+/* ==========================
+        TABLE
+========================== */
+
+.table tbody tr{
+
+    transition:.30s;
+
+}
+
+.table tbody tr:hover{
+
+    transform:scale(1.01);
+
+}
+
+
+/* ==========================
+        BLOOD CARD
+========================== */
+
+.blood-card h2{
+
+    letter-spacing:1px;
+
+}
+
+.blood-card small{
+
+    display:block;
+
+    margin-top:10px;
+
+}
+
+
+/* ==========================
+        COUNTER
+========================== */
+
+.counter{
+
+    font-weight:800;
+
+}
+
+
+/* ==========================
+        SEARCH INPUT
+========================== */
+
+.search-box{
+
+    position:relative;
+
+}
+
+.search-box input{
+
+    border-radius:40px;
+
+    padding-left:45px;
+
+    height:48px;
+
+}
+
+.search-box i{
+
+    position:absolute;
+
+    left:16px;
+
+    top:15px;
+
+    color:#64748b;
+
+}
+
+
+/* ==========================
+        PAGINATION
+========================== */
+
+.pagination .page-link{
+
+    color:#dc2626;
+
+    border-radius:10px;
+
+    margin:0 4px;
+
+}
+
+.pagination .active .page-link{
+
+    background:#dc2626;
+
+    border-color:#dc2626;
+
+}
+
+
+/* ==========================
+        LOADING SPINNER
+========================== */
+
+.loader{
+
+    width:45px;
+
+    height:45px;
+
+    border:5px solid #eee;
+
+    border-top:5px solid #dc2626;
+
+    border-radius:50%;
+
+    animation:spin 1s linear infinite;
+
+}
+
+@keyframes spin{
+
+    100%{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+
+/* ==========================
+        FADE ANIMATION
+========================== */
+
+.fade-up{
+
+    animation:fadeUp .7s ease;
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(25px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+/* ==========================
+        RESPONSIVE
+========================== */
+
+@media(max-width:1200px){
+
+.dashboard-card{
+
+    padding:22px;
+
+}
+
+.card-icon{
+
+    width:60px;
+
+    height:60px;
+
+}
+
+}
+
+
+@media(max-width:992px){
+
+.dashboard-card{
+
+    flex-direction:column;
+
+    text-align:center;
+
+    height:auto;
+
+}
+
+.quick-card{
+
+    height:110px;
+
+}
+
+.profile-photo{
+
+    width:120px;
+
+    height:120px;
+
+}
+
+}
+
+
+@media(max-width:768px){
+
+.page-title{
+
+    font-size:24px;
+
+}
+
+.quick-card{
+
+    margin-bottom:15px;
+
+}
+
+.dashboard-card h3{
+
+    font-size:24px;
+
+}
+
+.blood-card{
+
+    margin-bottom:20px;
+
+}
+
+.table{
+
+    font-size:13px;
+
+}
+
+}
+
+
+@media(max-width:576px){
+
+.container-fluid{
+
+    padding:15px !important;
+
+}
+
+.dashboard-card{
+
+    padding:18px;
+
+}
+
+.card-body{
+
+    padding:18px;
+
+}
+
+.quick-card{
+
+    height:95px;
+
+}
+
+.quick-card i{
+
+    font-size:24px;
+
+}
+
+.page-title{
+
+    font-size:20px;
+
+}
+
+.profile-photo{
+
+    width:100px;
+
+    height:100px;
+
+}
+
+footer{
+
+    font-size:13px;
+
+}
+
+}
+
+
+/*==================================================
+        END OF CSS
+==================================================*/

@@ -1,0 +1,1274 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - HemoCampus</title>
+    <style>
+      :root {
+        --primary: #dc2626;
+        --primary-light: #fee2e2;
+        --dark: #1e293b;
+        --dark-light: #334155;
+        --light: #f8fafc;
+        --white: #ffffff;
+        --border: #e2e8f0;
+        --text: #475569;
+        --text-light: #64748b;
+        --amber: #f59e0b;
+        --amber-bg: #fef3c7;
+        --green: #10b981;
+        --green-bg: #d1fae5;
+        --blue: #3b82f6;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Arial,
+          sans-serif;
+        background: var(--light);
+        color: var(--dark);
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .dashboard {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        width: 240px;
+        background: var(--dark);
+        color: #cbd5e1;
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        z-index: 100;
+      }
+
+      .logo {
+        padding: 24px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .logo-icon {
+        width: 38px;
+        height: 38px;
+        background: var(--primary);
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+      }
+
+      .logo-icon svg {
+        width: 22px;
+        height: 22px;
+        fill: white;
+      }
+
+      .logo-text h1 {
+        font-size: 18px;
+        color: white;
+        font-weight: 700;
+        letter-spacing: -0.2px;
+      }
+
+      .logo-text p {
+        font-size: 12px;
+        color: #94a3b8;
+        margin-top: -2px;
+      }
+
+      .sidebar nav {
+        padding: 16px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex: 1;
+        overflow-y: auto;
+      }
+
+      .sidebar nav a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 12px;
+        border-radius: 8px;
+        color: #cbd5e1;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+      }
+
+      .sidebar nav a svg {
+        width: 20px;
+        height: 20px;
+        stroke-width: 2;
+        opacity: 0.9;
+        flex-shrink: 0;
+      }
+
+      .sidebar nav a:hover {
+        background: rgba(255, 255, 255, 0.06);
+        color: white;
+      }
+
+      .sidebar nav a.active {
+        background: var(--primary);
+        color: white;
+        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
+      }
+
+      .sidebar nav a.active svg {
+        opacity: 1;
+      }
+
+      .sidebar nav a.logout {
+        margin-top: auto;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        margin-top: 16px;
+        padding-top: 16px;
+      }
+
+      /* Main */
+      .main {
+        flex: 1;
+        margin-left: 240px;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .topbar {
+        background: var(--white);
+        padding: 18px 28px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        gap: 16px;
+      }
+
+      .topbar-left h2 {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--dark);
+        margin-bottom: 2px;
+      }
+
+      .topbar-left .sub {
+        font-size: 13px;
+        color: var(--text-light);
+      }
+
+      .topbar-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .date-display {
+        font-size: 14px;
+        color: var(--text);
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      .notification {
+        position: relative;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: var(--light);
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        border: 1px solid var(--border);
+        transition: all 0.2s;
+        flex-shrink: 0;
+      }
+
+      .notification:hover {
+        background: var(--primary-light);
+        border-color: #fecaca;
+      }
+
+      .notification svg {
+        width: 20px;
+        height: 20px;
+        color: var(--dark-light);
+      }
+
+      .notification-dot {
+        position: absolute;
+        top: 8px;
+        right: 9px;
+        width: 8px;
+        height: 8px;
+        background: var(--primary);
+        border-radius: 50%;
+        border: 2px solid white;
+      }
+
+      .content {
+        padding: 28px;
+        max-width: 1400px;
+        width: 100%;
+        margin: 0 auto;
+        flex: 1;
+      }
+
+      /* Stats Grid */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin-bottom: 28px;
+      }
+
+      .stat-card {
+        background: var(--white);
+        border-radius: 14px;
+        padding: 20px;
+        border: 1px solid var(--border);
+        border-left: 4px solid var(--primary);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        transition: all 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      }
+
+      .stat-card.donors {
+        border-left-color: var(--primary);
+      }
+      .stat-card.pending {
+        border-left-color: var(--amber);
+      }
+      .stat-card.stock {
+        border-left-color: var(--green);
+      }
+      .stat-card.lives {
+        border-left-color: var(--blue);
+      }
+
+      .stat-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+      }
+
+      .stat-card.donors .stat-icon {
+        background: #fee2e2;
+        color: var(--primary);
+      }
+      .stat-card.pending .stat-icon {
+        background: #fef3c7;
+        color: #d97706;
+      }
+      .stat-card.stock .stat-icon {
+        background: #d1fae5;
+        color: #059669;
+      }
+      .stat-card.lives .stat-icon {
+        background: #dbeafe;
+        color: #2563eb;
+      }
+
+      .stat-icon svg {
+        width: 24px;
+        height: 24px;
+        stroke-width: 2;
+      }
+
+      .stat-details {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .stat-label {
+        font-size: 13px;
+        color: var(--text-light);
+        font-weight: 500;
+        margin-bottom: 6px;
+      }
+
+      .stat-value {
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--dark);
+        line-height: 1;
+        margin-bottom: 6px;
+        letter-spacing: -0.5px;
+      }
+
+      .stat-trend {
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .trend-up {
+        color: #059669;
+      }
+      .trend-warning {
+        color: #d97706;
+      }
+      .trend-neutral {
+        color: var(--text);
+      }
+
+      /* Two Column */
+      .two-col {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr;
+        gap: 20px;
+        margin-bottom: 28px;
+      }
+
+      .card {
+        background: var(--white);
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card-header {
+        padding: 18px 20px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .card-header h3 {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--dark);
+      }
+
+      .card-header a {
+        font-size: 13px;
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .card-header a:hover {
+        text-decoration: underline;
+      }
+
+      .card-body {
+        padding: 0;
+        flex: 1;
+      }
+
+      .card-body.padded {
+        padding: 20px;
+      }
+
+      /* Table */
+      .table-wrapper {
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+      }
+
+      th {
+        text-align: left;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--text-light);
+        font-weight: 700;
+        padding: 12px 16px;
+        background: var(--light);
+        border-bottom: 1px solid var(--border);
+        white-space: nowrap;
+      }
+
+      td {
+        padding: 14px 16px;
+        font-size: 14px;
+        color: var(--dark-light);
+        border-bottom: 1px solid #f1f5f9;
+        white-space: nowrap;
+      }
+
+      tr:last-child td {
+        border-bottom: none;
+      }
+
+      tr:hover td {
+        background: #fffafa;
+      }
+
+      .hospital {
+        font-weight: 600;
+        color: var(--dark);
+      }
+
+      .blood-group {
+        font-weight: 700;
+        color: var(--primary);
+        background: var(--primary-light);
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 12px;
+        display: inline-block;
+        min-width: 36px;
+        text-align: center;
+      }
+
+      .badge {
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        display: inline-block;
+      }
+
+      .badge-pending {
+        background: var(--amber-bg);
+        color: #92400e;
+      }
+      .badge-approved {
+        background: var(--green-bg);
+        color: #065f46;
+      }
+      .badge-emergency {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+
+      .action-link {
+        color: var(--primary);
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 13px;
+      }
+
+      .action-link:hover {
+        text-decoration: underline;
+      }
+
+      /* Stock Alert */
+      .stock-alert {
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        color: #991b1b;
+        padding: 12px 14px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 18px;
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+      }
+
+      .stock-alert svg {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+
+      .stock-list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .stock-item {
+        display: grid;
+        grid-template-columns: 42px 1fr 48px;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .stock-group {
+        font-weight: 800;
+        color: var(--dark);
+        font-size: 14px;
+        text-align: center;
+        background: var(--light);
+        padding: 6px 0;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+      }
+
+      .stock-bar-track {
+        height: 8px;
+        background: #f1f5f9;
+        border-radius: 4px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .stock-bar-fill {
+        height: 100%;
+        border-radius: 4px;
+        transition: width 0.4s ease;
+      }
+
+      .stock-bar-fill.good {
+        background: var(--green);
+      }
+      .stock-bar-fill.medium {
+        background: var(--amber);
+      }
+      .stock-bar-fill.low {
+        background: var(--primary);
+      }
+
+      .stock-units {
+        font-size: 13px;
+        font-weight: 700;
+        text-align: right;
+        color: var(--text);
+      }
+
+      .stock-units.low-text {
+        color: var(--primary);
+      }
+
+      /* Quick Actions */
+      .quick-actions h3 {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--dark);
+        margin-bottom: 16px;
+      }
+
+      .quick-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+      }
+
+      .quick-btn {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 18px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        text-decoration: none;
+        color: var(--dark);
+        transition: all 0.2s ease;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+      }
+
+      .quick-btn:hover {
+        border-color: var(--primary);
+        box-shadow: 0 6px 16px rgba(220, 38, 38, 0.12);
+        transform: translateY(-2px);
+        background: #fffafa;
+      }
+
+      .quick-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: var(--primary-light);
+        display: grid;
+        place-items: center;
+        color: var(--primary);
+        flex-shrink: 0;
+      }
+
+      .quick-icon svg {
+        width: 22px;
+        height: 22px;
+        stroke-width: 2;
+      }
+
+      .quick-text span {
+        font-weight: 600;
+        font-size: 14px;
+        display: block;
+        color: var(--dark);
+      }
+
+      .quick-text small {
+        display: block;
+        color: var(--text-light);
+        font-size: 12px;
+        margin-top: 2px;
+      }
+
+      /* Responsive */
+      @media (max-width: 1100px) {
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+        .quick-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      .sidebar {
+  width: 240px;
+  background: var(--dark);
+  color: #cbd5e1;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  z-index: 100;
+}
+
+.main {
+  flex: 1;
+  margin-left: 240px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+      @media (max-width: 900px) {
+        .sidebar {
+          width: 100%;
+          height: auto;
+          position: sticky;
+          top: 0;
+          flex-direction: row;
+          align-items: center;
+          padding: 0;
+          height: auto;
+        }
+
+        .logo {
+          border-bottom: none;
+          border-right: 1px solid rgba(255, 255, 255, 0.08);
+          padding: 12px 16px;
+        }
+
+        .logo-text p {
+          display: none;
+        }
+        .logo-text h1 {
+          font-size: 16px;
+        }
+        .logo-icon {
+          width: 32px;
+          height: 32px;
+        }
+        .logo-icon svg {
+          width: 18px;
+          height: 18px;
+        }
+
+        .sidebar nav {
+          flex-direction: row;
+          padding: 8px 12px;
+          gap: 6px;
+          overflow-x: auto;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+
+        .sidebar nav::-webkit-scrollbar {
+          display: none;
+        }
+
+        .sidebar nav a {
+          padding: 8px 12px;
+          font-size: 13px;
+          white-space: nowrap;
+          margin: 0;
+        }
+
+        .sidebar nav a svg {
+          width: 18px;
+          height: 18px;
+        }
+        .sidebar nav a.logout {
+          margin-top: 0;
+          border-top: none;
+          padding-top: 8px;
+          margin-left: auto;
+        }
+
+        .main {
+          margin-left: 0;
+        }
+
+        .topbar {
+          position: relative;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .topbar {
+          padding: 14px 16px;
+          flex-wrap: wrap;
+        }
+
+        .topbar-left h2 {
+          font-size: 18px;
+        }
+        .date-display {
+          display: none;
+        }
+
+        .content {
+          padding: 16px;
+        }
+
+        .stats-grid {
+          grid-template-columns: 1fr;
+          gap: 14px;
+          margin-bottom: 20px;
+        }
+
+        .stat-card {
+          padding: 16px;
+        }
+
+        .stat-value {
+          font-size: 24px;
+        }
+
+        .two-col {
+          gap: 16px;
+          margin-bottom: 20px;
+        }
+
+        .card-header,
+        .card-body.padded {
+          padding: 14px 16px;
+        }
+
+        th,
+        td {
+          padding: 12px 14px;
+          font-size: 13px;
+        }
+
+        .quick-grid {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+
+        .quick-btn {
+          padding: 14px;
+        }
+      }
+
+      @media (max-width: 390px) {
+        .sidebar nav a span {
+          display: none;
+        }
+        .sidebar nav a {
+          padding: 8px 10px;
+        }
+        .topbar-right {
+          gap: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+  <aside class="sidebar">...</aside>
+    <div class="dashboard">
+      <aside class="sidebar">
+        <div class="logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0L12 2.69z" />
+            </svg>
+          </div>
+          <div class="logo-text">
+            <h1>HemoCampus</h1>
+            <p>Admin Panel</p>
+          </div>
+        </div>
+        <nav>
+          <a href="/" class="active">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+              />
+            </svg>
+            <span>Dashboard</span>
+          </a>
+          <a href="/Manage_Donors/">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+              />
+            </svg>
+            <span>Manage Donors</span>
+          </a>
+          <a href="/Manage_Request/">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+              />
+            </svg>
+            <span>Manage Requests</span>
+          </a>
+          <a href="/Blood_Stock/">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+              />
+            </svg>
+            <span>Blood Stock</span>
+          </a>
+          <a href="/Report_Analytics/">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+              />
+            </svg>
+            <span>Reports</span>
+          </a>
+          <a href="/Setting/">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+            <span>Settings</span>
+          </a>
+          <a href="/LogoutPage/" class="logout">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              />
+            </svg>
+              <span>Lagout</span>
+          </a>
+        </nav>
+      </aside>
+
+        <!--- Main content--->
+        {% block content %}
+
+      <main class="main">
+        <header class="topbar">
+          <div class="topbar-left">
+            <h2>Welcome back, Admin</h2>
+            <div class="sub">
+              Here's what's happening with your blood bank today
+            </div>
+          </div>
+          <div class="topbar-right">
+            <div class="date-display">Tuesday, July 9, 2026</div>
+            <div class="notification">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                />
+              </svg>
+              <span class="notification-dot"></span>
+            </div>
+          </div>
+        </header>
+
+        <div class="content">
+          <!-- Stats -->
+          <div class="stats-grid">
+            <div class="stat-card donors">
+              <div class="stat-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                  />
+                </svg>
+              </div>
+              <div class="stat-details">
+                <div class="stat-label">Total Donors</div>
+                <div class="stat-value">1,248</div>
+                <div class="stat-trend trend-up">↑ 12% this month</div>
+              </div>
+            </div>
+
+            <div class="stat-card pending">
+              <div class="stat-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              <div class="stat-details">
+                <div class="stat-label">Pending Requests</div>
+                <div class="stat-value">24</div>
+                <div class="stat-trend trend-warning">5 Emergency</div>
+              </div>
+            </div>
+
+            <div class="stat-card stock">
+              <div class="stat-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 2.69l5.66 5.66a8 8 0 11-11.32 0L12 2.69z"
+                  />
+                </svg>
+              </div>
+              <div class="stat-details">
+                <div class="stat-label">Blood Units Available</div>
+                <div class="stat-value">47</div>
+                <div class="stat-trend trend-neutral">Across 8 groups</div>
+              </div>
+            </div>
+
+            <div class="stat-card lives">
+              <div class="stat-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                  />
+                </svg>
+              </div>
+              <div class="stat-details">
+                <div class="stat-label">Lives Saved</div>
+                <div class="stat-value">3,420</div>
+                <div class="stat-trend trend-up">↑ 8% this year</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Two Column -->
+          <div class="two-col">
+            <section class="card">
+              <div class="card-header">
+                <h3>Recent Blood Requests</h3>
+                <a href="#">View All</a>
+              </div>
+              <div class="card-body">
+                <div class="table-wrapper">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Request ID</th>
+                        <th>Hospital</th>
+                        <th>Blood Group</th>
+                        <th>Units</th>
+                        <th>Urgency</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>#REQ-2048</td>
+                        <td class="hospital">City General Hospital</td>
+                        <td><span class="blood-group">O+</span></td>
+                        <td>3</td>
+                        <td>High</td>
+                        <td>
+                          <span class="badge badge-pending">Pending</span>
+                        </td>
+                        <td><a href="#" class="action-link">Review</a></td>
+                      </tr>
+                      <tr>
+                        <td>#REQ-2047</td>
+                        <td class="hospital">St. Mary's Medical</td>
+                        <td><span class="blood-group">AB-</span></td>
+                        <td>2</td>
+                        <td>Emergency</td>
+                        <td>
+                          <span class="badge badge-emergency">Emergency</span>
+                        </td>
+                        <td><a href="#" class="action-link">Review</a></td>
+                      </tr>
+                      <tr>
+                        <td>#REQ-2046</td>
+                        <td class="hospital">District Hospital</td>
+                        <td><span class="blood-group">B+</span></td>
+                        <td>4</td>
+                        <td>Normal</td>
+                        <td>
+                          <span class="badge badge-approved">Approved</span>
+                        </td>
+                        <td><a href="#" class="action-link">View</a></td>
+                      </tr>
+                      <tr>
+                        <td>#REQ-2045</td>
+                        <td class="hospital">Apollo Clinic</td>
+                        <td><span class="blood-group">A-</span></td>
+                        <td>1</td>
+                        <td>High</td>
+                        <td>
+                          <span class="badge badge-pending">Pending</span>
+                        </td>
+                        <td><a href="#" class="action-link">Review</a></td>
+                      </tr>
+                      <tr>
+                        <td>#REQ-2044</td>
+                        <td class="hospital">Lifeline Hospital</td>
+                        <td><span class="blood-group">O-</span></td>
+                        <td>2</td>
+                        <td>Emergency</td>
+                        <td>
+                          <span class="badge badge-approved">Approved</span>
+                        </td>
+                        <td><a href="#" class="action-link">View</a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+
+            <section class="card">
+              <div class="card-header">
+                <h3>Blood Stock Alert</h3>
+              </div>
+              <div class="card-body padded">
+                <div class="stock-alert">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                    />
+                  </svg>
+                  <span>4 blood groups below critical level (&lt;5 units)</span>
+                </div>
+                <div class="stock-list">
+                  <div class="stock-item">
+                    <div class="stock-group">O+</div>
+                    <div class="stock-bar-track">
+                      <div
+                        class="stock-bar-fill good"
+                        style="width: 100%"
+                      ></div>
+                    </div>
+                    <div class="stock-units">15</div>
+                  </div>
+                  <div class="stock-item">
+                    <div class="stock-group">A+</div>
+                    <div class="stock-bar-track">
+                      <div class="stock-bar-fill good" style="width: 80%"></div>
+                    </div>
+                    <div class="stock-units">12</div>
+                  </div>
+                  <div class="stock-item">
+                    <div class="stock-group">B+</div>
+                    <div class="stock-bar-track">
+                      <div
+                        class="stock-bar-fill medium"
+                        style="width: 53%"
+                      ></div>
+                    </div>
+                    <div class="stock-units">8</div>
+                  </div>
+                  <div class="stock-item">
+                    <div class="stock-group">AB+</div>
+                    <div class="stock-bar-track">
+                      <div
+                        class="stock-bar-fill medium"
+                        style="width: 33%"
+                      ></div>
+                    </div>
+                    <div class="stock-units">5</div>
+                  </div>
+                  <div class="stock-item">
+                    <div class="stock-group">O-</div>
+                    <div class="stock-bar-track">
+                      <div class="stock-bar-fill low" style="width: 27%"></div>
+                    </div>
+                    <div class="stock-units low-text">4</div>
+                  </div>
+                  <div class="stock-item">
+                    <div class="stock-group">A-</div>
+                    <div class="stock-bar-track">
+                      <div class="stock-bar-fill low" style="width: 20%"></div>
+                    </div>
+                    <div class="stock-units low-text">3</div>
+                  </div>
+                  <div class="stock-item">
+                    <div class="stock-group">B-</div>
+                    <div class="stock-bar-track">
+                      <div class="stock-bar-fill low" style="width: 13%"></div>
+                    </div>
+                    <div class="stock-units low-text">2</div>
+                  </div>
+                  <div class="stock-item">
+                    <div class="stock-group">AB-</div>
+                    <div class="stock-bar-track">
+                      <div class="stock-bar-fill low" style="width: 7%"></div>
+                    </div>
+                    <div class="stock-units low-text">1</div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <!-- Quick Actions -->
+          <section class="quick-actions">
+            <h3>Quick Actions</h3>
+            <div class="quick-grid">
+              <a href="#" class="quick-btn">
+                <div class="quick-icon">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 0 01-8.618 3.04A12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                    />
+                  </svg>
+                </div>
+                <div class="quick-text">
+                  <span>Approve Donors</span>
+                  <small>12 pending verification</small>
+                </div>
+              </a>
+              <a href="#" class="quick-btn">
+                <div class="quick-icon">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 4v16m8-8H4"
+                    />
+                  </svg>
+                </div>
+                <div class="quick-text">
+                  <span>Add Blood Units</span>
+                  <small>Update inventory</small>
+                </div>
+              </a>
+              <a href="#" class="quick-btn">
+                <div class="quick-icon">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                </div>
+                <div class="quick-text">
+                  <span>Generate Report</span>
+                  <small>Monthly summary</small>
+                </div>
+              </a>
+              <a href="#" class="quick-btn">
+                <div class="quick-icon">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                    />
+                  </svg>
+                </div>
+                <div class="quick-text">
+                  <span>Notify Donors</span>
+                  <small>Send emergency alert</small>
+                </div>
+              </a>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+    {% endblock %}
+    <script>
+      (function () {
+        document.addEventListener("click", function (e) {
+          var a = e.target.closest("[data-product-id]");
+          if (!a) return;
+          e.preventDefault();
+          var pid = a.getAttribute("data-product-id");
+          if (pid)
+            parent.postMessage(
+              { type: "ecto-artifact-link-click", productId: pid },
+              "*",
+            );
+        });
+      })();
+    </script>
+  </body>
+</html>
