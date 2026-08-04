@@ -127,4 +127,4 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
-LOGIN_URL = '/login'
+# LOGIN_URL = '/login'
