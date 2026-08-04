@@ -24,7 +24,7 @@ def blood_stock(request):
 
 def manage_donors(request):
     if request.session.has_key('aid'):
-     return render(request, "AdminPages/Manage_Donors.html.html")
+     return render(request, "AdminPages/Manage_Donors.html")
     else:
         return HttpResponse("<script>alert('First Login');window.location.href='/login'</script>")
 
