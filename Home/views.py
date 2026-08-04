@@ -50,7 +50,7 @@ def hospital_registration(request):
     return render(request,'hospital_registration.html')
 
 def login(request):
-    return render(request, "Login.html")
+    return render(request, "login.html")
 
 def loginCode(request):
 
