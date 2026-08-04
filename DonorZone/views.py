@@ -33,7 +33,7 @@ def donor_dashboard(request):
         }
         return render(
             request,
-            "DonorPages/donor_dashboard.html",
+            "DonorPages/Donor_dashboard.html",
             context
         )
     else:
