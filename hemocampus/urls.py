@@ -30,7 +30,7 @@ path('hospital_registration/',views.hospital_registration, name='hospital_regist
 
     path('Report_Analytics/', ad.reports_analytics, name='reports_analytics'),
 
-    path('Setting/', views.settings, name='setting'),
+    path('Setting/', ad.settings, name='setting'),
 
     path('change_password/', ad.change_password, name='change_password'),
 
