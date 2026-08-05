@@ -7,6 +7,28 @@
 {% load static %}
 
 <style>
+    @media (max-width: 768px) {
+        .card-container{
+            flex-direction: column; /* card ek ke niche ek aayenge */
+        }
+        .card {
+            width: 100%; /* Mobile par card full width lega */
+            margin-bottom: 15px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .footer {
+            text-align: center;
+        }
+        /*footer ke ander ke plex container ko stack karein */
+        .footer-container {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+    }
+
     * {
         margin: 0;
         padding: 0;
@@ -142,17 +164,23 @@
 
     /* ================= FOOTER ================= */
    .footer {
-        width: 100vw;
-        background: #000000;
-        color: white;
-        padding: 40px 0 0 0;
-        margin: 50px 0 0 0;
-        position: relative;
-        left: 50%;
-        right: 50%;
-        margin-left: -50vw;
-        margin-right: -50vw;
-        box-sizing: border-box;
+       width: 100%;
+       background-color: #000000;
+       color: #ffffff;
+       padding: 40px 20px 20px 20px;
+       margin-top: 50px;
+       box-sizing: border-box;
+        /*width: 100vw;*/
+        /*background: #000000;*/
+        /*color: white;*/
+        /*padding: 40px 0 0 0;*/
+        /*margin: 50px 0 0 0;*/
+        /*position: relative;*/
+        /*left: 50%;*/
+        /*right: 50%;*/
+        /*margin-left: -50vw;*/
+        /*margin-right: -50vw;*/
+        /*box-sizing: border-box;*/
     }
 
    .footer-container {
