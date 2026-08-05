@@ -22,12 +22,18 @@
 }
 
 .slider{
-    height:250px;
+    height:220px;
 }
 
 .slide{
-    height:250px;
+    height:220px;
 }
+ .slide img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+    }
 
 .card-container{
     flex-wrap:wrap;
@@ -205,23 +211,24 @@
     }
 
         .slider {
-        width: 100%;
+            width: 100%;
+            max-width: 100%;
         height: 500px;
         position: relative;
         overflow: hidden;
-        margin-top: 0;
+        /*margin-top: 0;*/
     }
 
     .slides {
         display: flex;
-        width: 500%; /* 5 slide = 500% */
+        width: 100%; /* 5 slide = 500% */
         height: 100%;
-        transition: transform 0.8s ease-in-out;
+        transition: transform 0.8s ease;
     }
 
     .slide {
-        width: 100%;
-        height: 500px;
+        min-width: 100%;
+        height: 100%;
         position: relative;
         flex-shrink: 0;
     }
@@ -229,6 +236,7 @@
     .slide img {
         width: 100%;
         height: 100%;
+        display: block;
         object-fit: cover;
     }
 
@@ -1021,7 +1029,7 @@
     let totalSlides = document.querySelectorAll('.slide').length;
 
     function showSlide() {
-        slides.style.transform = 'translateX(' + (-slideIndex * 100) + '%)';
+        slides.style.transform = `translateX(-${slideIndex * 100}%)`;
 
         // dots active
         let dots = document.querySelectorAll('.dot');
